@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from avaliacoes.admin import ReviewInline
+
 from .models import Cafe, Marca
 
 
@@ -23,6 +25,7 @@ class CafeAdmin(admin.ModelAdmin):
     list_filter = ("tipo_grao", "tipo_torra", "destaque", "marca")
     search_fields = ("nome", "marca__nome", "notas_aromaticas", "origem_grao")
     list_editable = ("destaque",)
+    inlines = (ReviewInline,)
 
     @admin.display(description="Nota Média")
     def exibir_nota_media(self, obj):
