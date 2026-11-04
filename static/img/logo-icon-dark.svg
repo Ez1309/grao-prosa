@@ -1,0 +1,226 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 240" width="100%" height="100%">
+  <defs>
+    <!-- Filtros de Sombra e Brilho para Fundo Escuro Suavizados -->
+    <filter id="darkSaucerShadow" x="-20%" y="-20%" width="150%" height="160%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6.5" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+    <filter id="darkCupShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="4.5" stdDeviation="4.5" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+    <filter id="darkBeanShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0.5" dy="3" stdDeviation="2.5" flood-color="#120602" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- Cerâmica da Xícara Modo Escuro (Porcelana Marfim Nobre com Acabamento Acetinado) -->
+    <linearGradient id="cupCeramicDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFDF9"/>
+      <stop offset="40%" stop-color="#F2E6D8"/>
+      <stop offset="100%" stop-color="#D9C4AF"/>
+    </linearGradient>
+
+    <!-- Filete Superior Dourado -->
+    <linearGradient id="cupRimDark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C68642"/>
+      <stop offset="50%" stop-color="#F2C58A"/>
+      <stop offset="100%" stop-color="#8F5424"/>
+    </linearGradient>
+
+    <!-- Pires / Prato Destacado Marfim Dourado -->
+    <linearGradient id="saucerBodyDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFDF9"/>
+      <stop offset="50%" stop-color="#EADBCC"/>
+      <stop offset="100%" stop-color="#CDB69E"/>
+    </linearGradient>
+    <linearGradient id="saucerRimDark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#DE9F67"/>
+      <stop offset="50%" stop-color="#FCEADE"/>
+      <stop offset="100%" stop-color="#B87640"/>
+    </linearGradient>
+
+    <!-- Líquido do Café Clássico: Preto-Marrom Puro Confinado -->
+    <radialGradient id="classicCoffeeLiquidDark" cx="50%" cy="40%" r="62%">
+      <stop offset="0%" stop-color="#30160B"/>
+      <stop offset="55%" stop-color="#1B0B04"/>
+      <stop offset="85%" stop-color="#100402"/>
+      <stop offset="100%" stop-color="#060101"/>
+    </radialGradient>
+
+    <!-- Grão de Café -->
+    <linearGradient id="grainLightSideDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#AA6C4B"/>
+      <stop offset="50%" stop-color="#8E5334"/>
+      <stop offset="100%" stop-color="#6B3A20"/>
+    </linearGradient>
+    <linearGradient id="grainDarkSideDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4B2516"/>
+      <stop offset="60%" stop-color="#33170D"/>
+      <stop offset="100%" stop-color="#1C0A05"/>
+    </linearGradient>
+
+    <!-- Frutos Cereja 3D -->
+    <radialGradient id="cherryBerryDark1" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="30%" stop-color="#E5383B"/>
+      <stop offset="70%" stop-color="#A4161A"/>
+      <stop offset="100%" stop-color="#4B0007"/>
+    </radialGradient>
+    <radialGradient id="cherryBerryDark2" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FF5C77"/>
+      <stop offset="40%" stop-color="#BA181B"/>
+      <stop offset="100%" stop-color="#380006"/>
+    </radialGradient>
+
+    <!-- Folha Esmeralda Luminosa -->
+    <linearGradient id="leafGradDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#95D5B2"/>
+      <stop offset="45%" stop-color="#52B788"/>
+      <stop offset="100%" stop-color="#2D6A4F"/>
+    </linearGradient>
+
+    <!-- Vapores de Conversa Dourados -->
+    <linearGradient id="steamDark" x1="0%" y1="100%" x2="30%" y2="0%">
+      <stop offset="0%" stop-color="#F2C58A" stop-opacity="0.9"/>
+      <stop offset="65%" stop-color="#E0A96D" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#FFFDF9" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(10, 5)">
+    <!-- 1. VAPORES AROMÁTICOS DOURADOS SUAVIZADOS -->
+    <g opacity="0.95">
+      <path d="M102,70 C94,54 104,40 99,25 C96,17 89,13 85,7" 
+            fill="none" stroke="url(#steamDark)" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M120,66 C133,47 115,32 125,15 C130,8 138,6 142,1" 
+            fill="none" stroke="url(#steamDark)" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M136,70 C145,57 138,44 144,31 C148,23 155,17 159,11" 
+            fill="none" stroke="url(#steamDark)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- 2. PIRES / PRATO DESTACADO MARFIM DOURADO -->
+    <g filter="url(#darkSaucerShadow)">
+      <ellipse cx="120" cy="165" rx="93" ry="15.5" fill="#000000" opacity="0.55"/>
+      <ellipse cx="120" cy="161" rx="90" ry="14.8" fill="url(#saucerBodyDark)"/>
+      <ellipse cx="120" cy="159.5" rx="88" ry="13.2" fill="url(#saucerRimDark)"/>
+      <ellipse cx="120" cy="158" rx="79" ry="11.2" fill="#EADBCC"/>
+      <ellipse cx="120" cy="157" rx="58" ry="8" fill="url(#saucerBodyDark)" opacity="0.85"/>
+    </g>
+
+    <!-- 3. CORPO DA XÍCARA EM MARFIM (ALÇA CONECTADA SUAVEMENTE) -->
+    <g filter="url(#darkCupShadow)">
+      <!-- Asa da Xícara: Transição Tangencial Suave -->
+      <path d="M165,95 
+               C192,95 204,115 197,134 
+               C189,147 172,148 156,140 
+               C162,136 166,133 167,130
+               C182,130 187,118 184,111 
+               C181,104 173,103 165,103 Z" 
+            fill="url(#cupCeramicDark)" stroke-linejoin="round"/>
+      <path d="M166,96 C189,96 199,113 192,131 C187,142 173,144 158,139" 
+            fill="none" stroke="#F2C58A" stroke-width="1.4" opacity="0.75" stroke-linecap="round"/>
+
+      <!-- Corpo Principal -->
+      <path d="M66,86 C68,135 90,153 120,153 C150,153 172,135 174,86 Z" 
+            fill="url(#cupCeramicDark)"/>
+
+      <!-- Borda Superior da Xícara com Filete Ouro -->
+      <ellipse cx="120" cy="86" rx="54" ry="12.8" fill="url(#cupRimDark)"/>
+      <ellipse cx="120" cy="86" rx="51" ry="10.8" fill="#1C0602"/>
+
+      <!-- Líquido Confinado -->
+      <ellipse cx="120" cy="86.5" rx="48.5" ry="9.2" fill="url(#classicCoffeeLiquidDark)"/>
+      
+      <!-- Fina orla de espuma dourada -->
+      <path d="M75,87 C86,81.5 154,81.5 165,87" 
+            fill="none" stroke="#F2C58A" stroke-width="1.1" opacity="0.6" stroke-linecap="round"/>
+
+      <!-- Bolhas de café na superfície -->
+      <circle cx="93" cy="87" r="1.7" fill="#F2C58A" opacity="0.85"/>
+      <circle cx="93" cy="87" r="0.7" fill="#1A0B05"/>
+      <circle cx="96.5" cy="86.2" r="1.2" fill="#F2C58A" opacity="0.8"/>
+      <circle cx="96.5" cy="86.2" r="0.5" fill="#1A0B05"/>
+      <circle cx="90.5" cy="86.6" r="0.9" fill="#DE9F67" opacity="0.75"/>
+      <circle cx="147" cy="87.8" r="1.3" fill="#F2C58A" opacity="0.7"/>
+
+      <!-- Reflexo espelhado -->
+      <path d="M106,85.2 C116,83.8 128,83.8 136,85.2" 
+            fill="none" stroke="#FFF" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+    </g>
+
+    <!-- 4. RAMO BOTÂNICO À ESQUERDA -->
+    <g transform="translate(34, 146) scale(1.12)">
+      <path d="M13,11 C2,-4 -9,-11 -21,-17" 
+            fill="none" stroke="#A56847" stroke-width="2.4" stroke-linecap="round"/>
+
+      <!-- Folha Verde do Cafeeiro -->
+      <g filter="url(#darkSaucerShadow)">
+        <path d="M10,6 C-8,4 -22,-10 -28,-26 C-14,-28 4,-18 10,6 Z" 
+              fill="url(#leafGradDark)"/>
+        <path d="M10,6 C-6,-6 -16,-16 -24,-24" 
+              fill="none" stroke="#D8F3DC" stroke-width="1.2" opacity="0.8" stroke-linecap="round"/>
+        <path d="M-4,-2 C-10,-4 -14,-10 -18,-10 M-8,-8 C-14,-12 -18,-18 -22,-18" 
+              fill="none" stroke="#B7E4C7" stroke-width="0.8" opacity="0.65" stroke-linecap="round"/>
+      </g>
+
+      <!-- Frutos Cereja -->
+      <g filter="url(#darkSaucerShadow)">
+        <circle cx="12" cy="14" r="10.5" fill="url(#cherryBerryDark1)"/>
+        <ellipse cx="8.5" cy="10.5" rx="3" ry="1.7" transform="rotate(-30 8.5 10.5)" fill="#FFF" opacity="0.75"/>
+        <circle cx="6.5" cy="13.5" r="1" fill="#FFF" opacity="0.45"/>
+        <ellipse cx="15.5" cy="17" rx="2" ry="1.5" fill="#1C0003"/>
+      </g>
+
+      <circle cx="27" cy="19" r="8" fill="url(#cherryBerryDark2)"/>
+      <ellipse cx="24.5" cy="16.5" rx="2.2" ry="1.3" transform="rotate(-30 24.5 16.5)" fill="#FFF" opacity="0.65"/>
+    </g>
+
+    <!-- 5. GRÃO DE CAFÉ -->
+    <g transform="translate(197, 155) rotate(-38) scale(0.68)" filter="url(#darkBeanShadow)">
+      <ellipse cx="0" cy="4.5" rx="22" ry="11" fill="#000000" opacity="0.4"/>
+
+      <!-- Silhueta Oval Harmoniosa -->
+      <path d="M0,-29 
+               C-16,-21 -24,-7 -24,6 
+               C-24,19 -15,29 0,29 
+               C15,29 24,19 24,6 
+               C24,-7 16,-21 0,-29 Z" 
+            fill="#2B140B"/>
+
+      <!-- Banda Esquerda Iluminada -->
+      <path d="M0,-28 
+               C-14,-20 -22,-6 -22,6 
+               C-22,18 -13,27 0,27 
+               C-7,18 -9,5 -4,-7 
+               C-1,-14 -1,-20 0,-28 Z" 
+            fill="url(#grainLightSideDark)"/>
+
+      <!-- Faixa de Realce Curvada -->
+      <path d="M-9,-19 
+               C-16,-9 -18,3 -12,17 
+               C-17,5 -15,-7 -8,-17 Z" 
+            fill="#D29974" opacity="0.85"/>
+
+      <!-- Banda Direita em Sombra -->
+      <path d="M0,-28 
+               C14,-20 22,-6 22,6 
+               C22,18 13,27 0,27 
+               C7,18 9,5 4,-7 
+               C1,-14 1,-20 0,-28 Z" 
+            fill="url(#grainDarkSideDark)"/>
+
+      <!-- Faixa de Contorno da Fenda -->
+      <path d="M0,-27 
+               C-5,-14 6,-2 0,12 
+               C-4,19 2,25 0,26" 
+            fill="none" stroke="#8A4E2C" stroke-width="4" stroke-linecap="round"/>
+
+      <!-- Fenda Central Orgânica Sinuosa em 'S' -->
+      <path d="M0,-27 
+               C-5,-14 6,-2 0,12 
+               C-4,19 2,25 0,26" 
+            fill="none" stroke="#120502" stroke-width="2.4" stroke-linecap="round"/>
+
+      <!-- Ponto de luz sutil -->
+      <ellipse cx="-2" cy="-23" rx="2.2" ry="1.2" transform="rotate(-20 -2 -23)" fill="#FFF" opacity="0.45"/>
+    </g>
+  </g>
+</svg>

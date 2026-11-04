@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 135" width="100%" height="100%">
+  <defs>
+    <!-- Filtros de Sombra Suave -->
+    <filter id="fllDepth" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#120804" flood-opacity="0.22"/>
+    </filter>
+
+    <!-- Cerâmica da Xícara Modo Claro (Marrom Nobre Espresso) -->
+    <linearGradient id="fllCupCeramic" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#56301E"/>
+      <stop offset="35%" stop-color="#422416"/>
+      <stop offset="70%" stop-color="#321A10"/>
+      <stop offset="100%" stop-color="#241109"/>
+    </linearGradient>
+    <linearGradient id="fllCupRim" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C68642"/>
+      <stop offset="50%" stop-color="#F2C58A"/>
+      <stop offset="100%" stop-color="#8F5424"/>
+    </linearGradient>
+    <linearGradient id="fllSaucerBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#58311D"/>
+      <stop offset="50%" stop-color="#3E2012"/>
+      <stop offset="100%" stop-color="#221008"/>
+    </linearGradient>
+    <linearGradient id="fllSaucerRim" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9C623E"/>
+      <stop offset="50%" stop-color="#DE9F67"/>
+      <stop offset="100%" stop-color="#6E3B1E"/>
+    </linearGradient>
+
+    <!-- Líquido Clássico Café Marrom Profundo / Preto -->
+    <radialGradient id="fllCoffeeLiquid" cx="50%" cy="40%" r="62%">
+      <stop offset="0%" stop-color="#2A140A"/>
+      <stop offset="55%" stop-color="#180A04"/>
+      <stop offset="100%" stop-color="#060101"/>
+    </radialGradient>
+
+    <!-- Grão de Café no Pires à Direita -->
+    <linearGradient id="fllGrainLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9C6343"/>
+      <stop offset="50%" stop-color="#844D2F"/>
+      <stop offset="100%" stop-color="#63351C"/>
+    </linearGradient>
+    <linearGradient id="fllGrainDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#452214"/>
+      <stop offset="60%" stop-color="#2E140B"/>
+      <stop offset="100%" stop-color="#1A0A05"/>
+    </linearGradient>
+
+    <!-- Cerejas e Folhas -->
+    <radialGradient id="fllBerry" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FF5C5C"/>
+      <stop offset="30%" stop-color="#D90429"/>
+      <stop offset="100%" stop-color="#300006"/>
+    </radialGradient>
+    <linearGradient id="fllLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#74C69D"/>
+      <stop offset="50%" stop-color="#40916C"/>
+      <stop offset="100%" stop-color="#1B4332"/>
+    </linearGradient>
+    <linearGradient id="fllSteam" x1="0%" y1="100%" x2="30%" y2="0%">
+      <stop offset="0%" stop-color="#C68642" stop-opacity="0.8"/>
+      <stop offset="65%" stop-color="#DE9F67" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FFFDF9" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="fllGoldText" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E0A96D"/>
+      <stop offset="50%" stop-color="#C68642"/>
+      <stop offset="100%" stop-color="#8F5424"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ==================== ÍCONE COMPLETO (ESQUERDA) ==================== -->
+  <g transform="translate(6, 8) scale(0.48)">
+    <!-- Vapores de Prosa -->
+    <path d="M102,70 C94,54 104,40 99,25 C96,17 89,13 85,7" fill="none" stroke="url(#fllSteam)" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M120,66 C133,47 115,32 125,15 C130,8 138,6 142,1" fill="none" stroke="url(#fllSteam)" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M136,70 C145,57 138,44 144,31 C148,23 155,17 159,11" fill="none" stroke="url(#fllSteam)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Pires Destacado -->
+    <g filter="url(#fllDepth)">
+      <ellipse cx="120" cy="165" rx="93" ry="15.5" fill="#0C0401" opacity="0.4"/>
+      <ellipse cx="120" cy="161" rx="90" ry="14.8" fill="url(#fllSaucerBody)"/>
+      <ellipse cx="120" cy="159.5" rx="88" ry="13.2" fill="url(#fllSaucerRim)"/>
+      <ellipse cx="120" cy="158" rx="79" ry="11.2" fill="#180C06"/>
+    </g>
+
+    <!-- Xícara com Alça Conectada e Cerâmica Marrom Nobre -->
+    <g filter="url(#fllDepth)">
+      <path d="M165,95 C192,95 204,115 197,134 C189,147 172,148 156,140 C162,136 166,133 167,130 C182,130 187,118 184,111 C181,104 173,103 165,103 Z" fill="url(#fllCupCeramic)" stroke-linejoin="round"/>
+      <path d="M166,96 C189,96 199,113 192,131 C187,142 173,144 158,139" fill="none" stroke="#F2C58A" stroke-width="1.4" opacity="0.7" stroke-linecap="round"/>
+      <path d="M66,86 C68,135 90,153 120,153 C150,153 172,135 174,86 Z" fill="url(#fllCupCeramic)"/>
+      <ellipse cx="120" cy="86" rx="54" ry="12.8" fill="url(#fllCupRim)"/>
+      <ellipse cx="120" cy="86" rx="51" ry="10.8" fill="#170A04"/>
+      <ellipse cx="120" cy="86.5" rx="48.5" ry="9.2" fill="url(#fllCoffeeLiquid)"/>
+      <!-- Bolhas clássicas e reflexo -->
+      <circle cx="93" cy="87" r="1.7" fill="#D49449" opacity="0.8"/>
+      <circle cx="93" cy="87" r="0.7" fill="#1A0B05"/>
+      <circle cx="96.5" cy="86.2" r="1.2" fill="#D49449" opacity="0.75"/>
+      <circle cx="147" cy="87.8" r="1.3" fill="#D49449" opacity="0.65"/>
+      <path d="M106,85.2 C116,83.8 128,83.8 136,85.2" fill="none" stroke="#FFF" stroke-width="1.5" opacity="0.45" stroke-linecap="round"/>
+    </g>
+
+    <!-- Ramo de Fruto e Folhas à Esquerda (Escala Ampliada) -->
+    <g transform="translate(34, 146) scale(1.12)">
+      <path d="M13,11 C2,-4 -9,-11 -21,-17" fill="none" stroke="#4F2E1E" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M10,6 C-8,4 -22,-10 -28,-26 C-14,-28 4,-18 10,6 Z" fill="url(#fllLeaf)"/>
+      <circle cx="12" cy="14" r="10.5" fill="url(#fllBerry)"/>
+      <ellipse cx="8.5" cy="10.5" rx="3" ry="1.7" transform="rotate(-30 8.5 10.5)" fill="#FFF" opacity="0.7"/>
+      <circle cx="27" cy="19" r="8" fill="url(#fllBerry)"/>
+    </g>
+
+    <!-- Grão de Café no Pires à Direita (Proporcional) -->
+    <g transform="translate(197, 155) rotate(-38) scale(0.68)" filter="url(#fllDepth)">
+      <ellipse cx="0" cy="4.5" rx="22" ry="11" fill="#0A0301" opacity="0.6"/>
+      <path d="M0,-29 C-16,-21 -24,-7 -24,6 C-24,19 -15,29 0,29 C15,29 24,19 24,6 C24,-7 16,-21 0,-29 Z" fill="#2E140B"/>
+      <path d="M0,-28 C-14,-20 -22,-6 -22,6 C-22,18 -13,27 0,27 C-7,18 -9,5 -4,-7 C-1,-14 -1,-20 0,-28 Z" fill="url(#fllGrainLight)"/>
+      <path d="M-9,-19 C-16,-9 -18,3 -12,17 C-17,5 -15,-7 -8,-17 Z" fill="#C48862" opacity="0.85"/>
+      <path d="M0,-28 C14,-20 22,-6 22,6 C22,18 13,27 0,27 C7,18 9,5 4,-7 C1,-14 1,-20 0,-28 Z" fill="url(#fllGrainDark)"/>
+      <path d="M0,-27 C-5,-14 6,-2 0,12 C-4,19 2,25 0,26" fill="none" stroke="#7A4528" stroke-width="4" stroke-linecap="round"/>
+      <path d="M0,-27 C-5,-14 6,-2 0,12 C-4,19 2,25 0,26" fill="none" stroke="#0A0201" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- DIVISOR VERTICAL -->
+  <line x1="140" y1="28" x2="140" y2="105" stroke="#E6CCB2" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- ==================== TIPOGRAFIA MODO CLARO ==================== -->
+  <g transform="translate(158, 0)">
+    <text x="0" y="72" font-family="'Playfair Display', 'Georgia', 'Cinzel', serif" font-size="48" font-weight="700" letter-spacing="-0.5" fill="#24110A">
+      Grão
+      <tspan font-family="'Cinzel', 'Playfair Display', serif" font-weight="400" font-size="42" fill="url(#fllGoldText)"> &amp; </tspan>
+      Prosa
+    </text>
+    <text x="3" y="98" font-family="'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" letter-spacing="4.2" fill="#8F5424">
+      CAFÉS ESPECIAIS &amp; COMUNIDADE
+    </text>
+    <line x1="3" y1="108" x2="78" y2="108" stroke="url(#fllGoldText)" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+</svg>

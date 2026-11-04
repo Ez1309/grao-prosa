@@ -1,0 +1,231 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 240" width="100%" height="100%">
+  <defs>
+    <!-- Filtros de Sombra Suave e Profundidade Sem Ruído -->
+    <filter id="saucerShadow" x="-20%" y="-20%" width="150%" height="160%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5.5" flood-color="#140803" flood-opacity="0.25"/>
+    </filter>
+    <filter id="cupShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="4.5" stdDeviation="4.5" flood-color="#1A0D08" flood-opacity="0.22"/>
+    </filter>
+    <filter id="beanShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0.5" dy="3" stdDeviation="2.5" flood-color="#0E0502" flood-opacity="0.35"/>
+    </filter>
+
+    <!-- Cerâmica da Xícara Modo Claro (Marrom Nobre Espresso, Acabamento Suave Cilíndrico) -->
+    <linearGradient id="cupCeramicLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#56301E"/>
+      <stop offset="35%" stop-color="#422416"/>
+      <stop offset="70%" stop-color="#321A10"/>
+      <stop offset="100%" stop-color="#241109"/>
+    </linearGradient>
+
+    <!-- Filete Superior em Caramelo Dourado Refinado -->
+    <linearGradient id="cupRimLight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C68642"/>
+      <stop offset="50%" stop-color="#F2C58A"/>
+      <stop offset="100%" stop-color="#8F5424"/>
+    </linearGradient>
+
+    <!-- Pires / Prato (Bordas e Chanfros Suavizados) -->
+    <linearGradient id="saucerBodyLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#58311D"/>
+      <stop offset="50%" stop-color="#3E2012"/>
+      <stop offset="100%" stop-color="#221008"/>
+    </linearGradient>
+    <linearGradient id="saucerRimLight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9C623E"/>
+      <stop offset="50%" stop-color="#DE9F67"/>
+      <stop offset="100%" stop-color="#6E3B1E"/>
+    </linearGradient>
+
+    <!-- Líquido do Café Clássico: Preto-Marrom Puro e Homogêneo -->
+    <radialGradient id="classicCoffeeLiquid" cx="50%" cy="40%" r="62%">
+      <stop offset="0%" stop-color="#2A140A"/>
+      <stop offset="55%" stop-color="#180A04"/>
+      <stop offset="85%" stop-color="#0F0402"/>
+      <stop offset="100%" stop-color="#060101"/>
+    </radialGradient>
+
+    <!-- Grão de Café Proporcional -->
+    <linearGradient id="grainLightSide" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9C6343"/>
+      <stop offset="50%" stop-color="#844D2F"/>
+      <stop offset="100%" stop-color="#63351C"/>
+    </linearGradient>
+    <linearGradient id="grainDarkSide" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#452214"/>
+      <stop offset="60%" stop-color="#2E140B"/>
+      <stop offset="100%" stop-color="#1A0A05"/>
+    </linearGradient>
+
+    <!-- Frutos Cereja 3D -->
+    <radialGradient id="cherryBerry1" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FF5C5C"/>
+      <stop offset="30%" stop-color="#D90429"/>
+      <stop offset="70%" stop-color="#80061A"/>
+      <stop offset="100%" stop-color="#300006"/>
+    </radialGradient>
+    <radialGradient id="cherryBerry2" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FF4D6D"/>
+      <stop offset="40%" stop-color="#A4161A"/>
+      <stop offset="100%" stop-color="#240004"/>
+    </radialGradient>
+
+    <!-- Folha Verde do Cafeeiro -->
+    <linearGradient id="leafGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#74C69D"/>
+      <stop offset="45%" stop-color="#40916C"/>
+      <stop offset="100%" stop-color="#1B4332"/>
+    </linearGradient>
+
+    <!-- Vapores de Prosa Suavizados -->
+    <linearGradient id="steamLight" x1="0%" y1="100%" x2="30%" y2="0%">
+      <stop offset="0%" stop-color="#C68642" stop-opacity="0.8"/>
+      <stop offset="65%" stop-color="#DE9F67" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FFFDF9" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(10, 5)">
+    <!-- 1. VAPORES AROMÁTICOS (TERMINAÇÕES SUAVES EM CURVAS CONTÍNUAS) -->
+    <g opacity="0.95">
+      <path d="M102,70 C94,54 104,40 99,25 C96,17 89,13 85,7" 
+            fill="none" stroke="url(#steamLight)" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M120,66 C133,47 115,32 125,15 C130,8 138,6 142,1" 
+            fill="none" stroke="url(#steamLight)" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M136,70 C145,57 138,44 144,31 C148,23 155,17 159,11" 
+            fill="none" stroke="url(#steamLight)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- 2. PIRES / PRATO DESTACADO (CAMADAS POLIDAS E ENCAIXE PRECISO) -->
+    <g filter="url(#saucerShadow)">
+      <ellipse cx="120" cy="165" rx="93" ry="15.5" fill="#0C0401" opacity="0.4"/>
+      <ellipse cx="120" cy="161" rx="90" ry="14.8" fill="url(#saucerBodyLight)"/>
+      <ellipse cx="120" cy="159.5" rx="88" ry="13.2" fill="url(#saucerRimLight)"/>
+      <!-- Centro rebaixado de assentamento da xícara -->
+      <ellipse cx="120" cy="158" rx="79" ry="11.2" fill="#180C06"/>
+      <ellipse cx="120" cy="157" rx="58" ry="8" fill="url(#saucerBodyLight)" opacity="0.75"/>
+    </g>
+
+    <!-- 3. CORPO DA XÍCARA (ALÇA FUNDIDA SEM EMENDAS E BORDAS SUAVES) -->
+    <g filter="url(#cupShadow)">
+      <!-- Asa da Xícara: Transição Tangencial Suave com o Corpo da Cerâmica -->
+      <path d="M165,95 
+               C192,95 204,115 197,134 
+               C189,147 172,148 156,140 
+               C162,136 166,133 167,130
+               C182,130 187,118 184,111 
+               C181,104 173,103 165,103 Z" 
+            fill="url(#cupCeramicLight)" stroke-linejoin="round"/>
+      <path d="M166,96 C189,96 199,113 192,131 C187,142 173,144 158,139" 
+            fill="none" stroke="#F2C58A" stroke-width="1.4" opacity="0.7" stroke-linecap="round"/>
+
+      <!-- Corpo Principal Cilíndrico da Xícara -->
+      <path d="M66,86 C68,135 90,153 120,153 C150,153 172,135 174,86 Z" 
+            fill="url(#cupCeramicLight)"/>
+
+      <!-- Borda Superior da Cerâmica -->
+      <ellipse cx="120" cy="86" rx="54" ry="12.8" fill="url(#cupRimLight)"/>
+      <ellipse cx="120" cy="86" rx="51" ry="10.8" fill="#170A04"/>
+
+      <!-- LÍQUIDO DO CAFÉ CLÁSSICO: Confinado com Perfeição na Geometria Interna -->
+      <ellipse cx="120" cy="86.5" rx="48.5" ry="9.2" fill="url(#classicCoffeeLiquid)"/>
+      
+      <!-- Orla sutil de crema dourada confinada nos limites internos -->
+      <path d="M75,87 C86,81.5 154,81.5 165,87" 
+            fill="none" stroke="#C68642" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/>
+
+      <!-- Bolhas sutis de café na superfície -->
+      <circle cx="93" cy="87" r="1.7" fill="#D49449" opacity="0.8"/>
+      <circle cx="93" cy="87" r="0.7" fill="#1A0B05"/>
+      <circle cx="96.5" cy="86.2" r="1.2" fill="#D49449" opacity="0.75"/>
+      <circle cx="96.5" cy="86.2" r="0.5" fill="#1A0B05"/>
+      <circle cx="90.5" cy="86.6" r="0.9" fill="#DE9F67" opacity="0.7"/>
+      <circle cx="147" cy="87.8" r="1.3" fill="#D49449" opacity="0.65"/>
+
+      <!-- Reflexo espelhado límpido suave -->
+      <path d="M106,85.2 C116,83.8 128,83.8 136,85.2" 
+            fill="none" stroke="#FFF" stroke-width="1.5" opacity="0.45" stroke-linecap="round"/>
+    </g>
+
+    <!-- 4. RAMO BOTÂNICO À ESQUERDA (ENCORPADO E PERFEITAMENTE ASSENTADO) -->
+    <g transform="translate(34, 146) scale(1.12)">
+      <!-- Haste amadeirada com início suave sob as cerejas -->
+      <path d="M13,11 C2,-4 -9,-11 -21,-17" 
+            fill="none" stroke="#4F2E1E" stroke-width="2.4" stroke-linecap="round"/>
+
+      <!-- Folha Verde do Cafeeiro -->
+      <g filter="url(#saucerShadow)">
+        <path d="M10,6 C-8,4 -22,-10 -28,-26 C-14,-28 4,-18 10,6 Z" 
+              fill="url(#leafGrad1)"/>
+        <path d="M10,6 C-6,-6 -16,-16 -24,-24" 
+              fill="none" stroke="#B7E4C7" stroke-width="1.1" opacity="0.75" stroke-linecap="round"/>
+        <path d="M-4,-2 C-10,-4 -14,-10 -18,-10 M-8,-8 C-14,-12 -18,-18 -22,-18" 
+              fill="none" stroke="#95D5B2" stroke-width="0.7" opacity="0.55" stroke-linecap="round"/>
+      </g>
+
+      <!-- Fruto Cereja 1 -->
+      <g filter="url(#saucerShadow)">
+        <circle cx="12" cy="14" r="10.5" fill="url(#cherryBerry1)"/>
+        <ellipse cx="8.5" cy="10.5" rx="3" ry="1.7" transform="rotate(-30 8.5 10.5)" fill="#FFF" opacity="0.7"/>
+        <circle cx="6.5" cy="13.5" r="1" fill="#FFF" opacity="0.4"/>
+        <ellipse cx="15.5" cy="17" rx="2" ry="1.5" fill="#1C0003"/>
+      </g>
+
+      <!-- Fruto Cereja 2 -->
+      <circle cx="27" cy="19" r="8" fill="url(#cherryBerry2)"/>
+      <ellipse cx="24.5" cy="16.5" rx="2.2" ry="1.3" transform="rotate(-30 24.5 16.5)" fill="#FFF" opacity="0.55"/>
+    </g>
+
+    <!-- 5. GRÃO DE CAFÉ (CONFINADO NA ABA DO PIRES, BORDAS POLIDAS) -->
+    <g transform="translate(197, 155) rotate(-38) scale(0.68)" filter="url(#beanShadow)">
+      <!-- Sombra de contato ajustada ao contorno da aba -->
+      <ellipse cx="0" cy="4.5" rx="22" ry="11" fill="#0A0301" opacity="0.6"/>
+
+      <!-- Silhueta Oval Harmoniosa -->
+      <path d="M0,-29 
+               C-16,-21 -24,-7 -24,6 
+               C-24,19 -15,29 0,29 
+               C15,29 24,19 24,6 
+               C24,-7 16,-21 0,-29 Z" 
+            fill="#2E140B"/>
+
+      <!-- Banda Esquerda Iluminada -->
+      <path d="M0,-28 
+               C-14,-20 -22,-6 -22,6 
+               C-22,18 -13,27 0,27 
+               C-7,18 -9,5 -4,-7 
+               C-1,-14 -1,-20 0,-28 Z" 
+            fill="url(#grainLightSide)"/>
+
+      <!-- Faixa de Realce Curvada Suave -->
+      <path d="M-9,-19 
+               C-16,-9 -18,3 -12,17 
+               C-17,5 -15,-7 -8,-17 Z" 
+            fill="#C48862" opacity="0.85"/>
+
+      <!-- Banda Direita em Sombra -->
+      <path d="M0,-28 
+               C14,-20 22,-6 22,6 
+               C22,18 13,27 0,27 
+               C7,18 9,5 4,-7 
+               C1,-14 1,-20 0,-28 Z" 
+            fill="url(#grainDarkSide)"/>
+
+      <!-- Faixa de Contorno da Fenda -->
+      <path d="M0,-27 
+               C-5,-14 6,-2 0,12 
+               C-4,19 2,25 0,26" 
+            fill="none" stroke="#7A4528" stroke-width="4" stroke-linecap="round"/>
+
+      <!-- Fenda Central Orgânica Sinuosa em 'S' -->
+      <path d="M0,-27 
+               C-5,-14 6,-2 0,12 
+               C-4,19 2,25 0,26" 
+            fill="none" stroke="#0A0201" stroke-width="2.4" stroke-linecap="round"/>
+
+      <!-- Ponto de luz sutil no topo do grão -->
+      <ellipse cx="-2" cy="-23" rx="2.2" ry="1.2" transform="rotate(-20 -2 -23)" fill="#FFF" opacity="0.38"/>
+    </g>
+  </g>
+</svg>
