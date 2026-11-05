@@ -1,7 +1,7 @@
 # ☕ Grão & Prosa
 
 <p align="center">
-  <img src="static/img/logo-full-light.svg" alt="Grão & Prosa Logo" width="460">
+  <img src="static/img/logo-full-dark.svg" alt="Grão & Prosa Logo" width="460">
 </p>
 
 <p align="center">
@@ -21,10 +21,10 @@
 
 ## 📌 1. Integrantes do Grupo
 
-| Nome | GitHub | Papel no Projeto |
-| :--- | :---: | :--- |
-| **Ezequiel Dominguez Santos** | [@Ez1309](https://github.com/Ez1309) | Infraestrutura, Docker, Setup Django, App `usuarios` (Perfil/Signals), Identidade Visual e Configurações Base |
-| **Diovani Mangia Junior** | [@diovanimacieljr](https://github.com/diovanimacieljr) | Modelagem de Negócio, App `catalogo`, App `avaliacoes`, Configuração do Admin/Inlines e Script de Carga |
+| Nome | GitHub |
+| :--- | :---: |
+| **Ezequiel Dominguez Santos** | [@Ez1309](https://github.com/Ez1309) |
+| **Diovani da Cruz Mangia Maciel Junior** | [@diovanimacieljr](https://github.com/diovanimacieljr) |
 
 ---
 
@@ -39,7 +39,7 @@ O desenvolvimento foi estruturado com foco em boas práticas de engenharia de so
 ## 🚀 3. Tecnologias Utilizadas
 
 * **Linguagem & Framework:** Python 3.12 e Django 5.1
-* **Persistência Relacional:** PostgreSQL 16 (via Docker) com fallback inteligente para SQLite3 local
+* **Persistência Relacional:** PostgreSQL 16 (via Docker) com fallback para SQLite3 local
 * **Containerização:** Docker e Docker Compose
 * **Ambiente Administrativo:** `django-jazzmin` (customizado com ícones FontAwesome e suporte a Light/Dark Mode)
 * **Manipulação de Imagens:** `Pillow` (para uploads de capas de cafés e fotos de perfil)
@@ -48,26 +48,26 @@ O desenvolvimento foi estruturado com foco em boas práticas de engenharia de so
 
 ---
 
-## 🎯 4. Funcionalidades Entregues (Checkpoint 1)
+## 🎯 4. Funcionalidades do Sistema
 
-Nesta primeira etapa de avaliação (Checkpoint 1), o foco do projeto concentrou-se na modelagem de dados, arquitetura, persistência e personalização do back-office:
+A aplicação possui um ecossistema completo de gestão e interação, integrando múltiplos módulos de negócio:
 
-* ✅ **Modelagem Completa do Banco de Dados (3 Apps Modularizados):**
+* **Modelagem Relacional de Dados (3 Apps Modularizados):**
   * **App `usuarios`:** Modelo `Perfil` estendendo o `User` nativo (`OneToOneField`) com enums `TipoPerfil` e `TipoTorra`, biografia, foto de avatar e gatilho de criação automática via *Django Signals* (`post_save`).
   * **App `catalogo`:** Modelos `Marca` (país de origem, história, site oficial) e `Cafe` (relacionamento FK, enums `TipoGrao` e `TipoTorra`, intensidade 1 a 10 com `MinValueValidator`/`MaxValueValidator`, notas sensoriais, imagem de capa, booleano de destaque e cálculo automático de `nota_media` agregada).
   * **App `avaliacoes`:** Modelo `Review` (relacionamento N:1 com `User` e `Cafe`, nota de 1 a 5, comentário, constraint `unique_together = ('usuario', 'cafe')` para impedir spam e ordenação decrescente por data).
-* ✅ **Painel Administrativo Customizado (Jazzmin):**
-  * Substituição completa do template padrão cru do Django pelo tema **Jazzmin** (Bootstrap 4 / AdminLTE 3).
-  * Títulos e cabeçalhos em português do Brasil e menus laterais temáticos com ícones do **FontAwesome**.
+* **Painel Administrativo Customizado (Jazzmin):**
+  * Interface moderna substituindo o padrão do Django pelo tema **Jazzmin** (Bootstrap 4 / AdminLTE 3).
+  * Títulos e cabeçalhos em português do Brasil e menus laterais com ícones do **FontAwesome**.
   * Alternância integrada entre **Modo Claro** e **Modo Escuro** (*Dark Mode*).
-* ✅ **Filtros e Recursos Avançados no Admin:**
+* **Filtros e Recursos Avançados no Admin:**
   * Filtros laterais multifacetados (`list_filter`) por tipo de grão, ponto de torra, marcas cadastradas, destaque e faixa de notas.
   * Hierarquia de datas (`date_hierarchy = 'data_avaliacao'`) para navegação cronológica das avaliações.
   * Busca textual dinâmica (`search_fields`) por múltiplos campos indexados.
   * Edição inline: componente `ReviewInline` (`TabularInline`) embutido na edição do Café e `PerfilInline` (`StackedInline`) na tela de Usuários.
   * Edição rápida em lote na lista (`list_editable`) para o campo de destaque.
-* ✅ **Script para Popular Banco de Dados:**
-  * Script standalone `scripts-bd/popula_cafes.py` que injeta 5 marcas renomadas e 25 cafés com avaliações realistas para validação instantânea do ambiente.
+* **Script para Povoamento do Banco de Dados:**
+  * Script standalone `scripts-bd/popula_cafes.py` que injeta 5 marcas conceituadas e 25 cafés com avaliações para testes e validação imediata do ambiente.
 
 ---
 
@@ -113,9 +113,7 @@ Nesta primeira etapa de avaliação (Checkpoint 1), o foco do projeto concentrou
 
 ---
 
-### Opção B: Execução Local (Sem Docker / Fallback de Laboratório)
-
-Caso esteja em um computador sem suporte a Docker, a aplicação possui fallback automático para **SQLite3**:
+### Opção B: Execução Local (Sem Docker)
 
 1. **Crie e ative um ambiente virtual:**
    ```bash
@@ -134,7 +132,7 @@ Caso esteja em um computador sem suporte a Docker, a aplicação possui fallback
    ```bash
    cp .env.example .env
    ```
-   *(No arquivo `.env`, altere `DB_ENGINE=django.db.backends.sqlite3` para forçar o SQLite local).*
+   *(No arquivo `.env`, configure `DB_ENGINE=django.db.backends.sqlite3` para utilizar o banco SQLite local).*
 
 4. **Execute as migrações e popule o banco:**
    ```bash
@@ -190,12 +188,12 @@ grao-prosa/
 
 ## 🌿 7. Estratégia de Versionamento e Branches
 
-O projeto segue rigorosamente o modelo **Git Flow** estabelecido nas diretrizes acadêmicas:
-* **`main`:** Código estável e validado para entregas oficiais de cada checkpoint.
+O projeto segue o modelo **Git Flow** para organização colaborativa:
+* **`main`:** Código estável e validado para entregas oficiais.
 * **`develop`:** Branch principal de integração contínua da equipe.
 * **`feature/<modulo>`:** Branches isoladas de desenvolvimento utilizadas por cada integrante:
-  * `feature/infra-setup-usuarios` (Pessoa A)
-  * `feature/catalogo-avaliacoes` (Pessoa B)
+  * `feature/infra-setup-usuarios`
+  * `feature/catalogo-avaliacoes`
 
 ---
 
