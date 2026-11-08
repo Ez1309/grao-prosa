@@ -29,31 +29,31 @@
     --gp-nav-hover-bg: rgba(111, 78, 55, 0.08);
 }
 
-/* Modo Escuro: Base marrom */
+/* Modo Escuro: Base taupe / carvão-café suave e aveludada (descanso visual sem cansaço) */
 [data-bs-theme="dark"] {
-    --bs-body-bg: #221711;
-    --bs-body-bg-rgb: 34, 23, 17;
-    --bs-body-color: #F3E8DF;
-    --bs-body-color-rgb: 243, 232, 223;
+    --bs-body-bg: #1A1816;
+    --bs-body-bg-rgb: 26, 24, 22;
+    --bs-body-color: #E8E3DD;
+    --bs-body-color-rgb: 232, 227, 221;
     
-    /* Fundo da navbar e rodapé */
-    --gp-nav-footer-bg: #291b14;
-    --gp-card-bg: #2B1D16;
+    /* Fundo suavemente elevado da navbar e rodapé */
+    --gp-nav-footer-bg: #221F1C;
+    --gp-card-bg: #262320;
     
-    --bs-border-color: #352219;
-    --bs-border-color-translucent: rgba(243, 232, 223, 0.1);
+    --bs-border-color: #38332E;
+    --bs-border-color-translucent: rgba(232, 227, 221, 0.1);
 
-    /* Cores de destaque no modo escuro */
-    --gp-coffee-primary: #E0A96D;
-    --gp-coffee-hover: #F0BC85;
-    --gp-coffee-light: #E6C8A2;
+    /* Cores de destaque no modo escuro (tons dourados de crema e âmbar suave) */
+    --gp-coffee-primary: #D4A373;
+    --gp-coffee-hover: #E2B887;
+    --gp-coffee-light: #DEB887;
 
     /* Ícones e links */
-    --gp-icon-coffee: #E0A96D;
-    --gp-icon-stats: #F4A261;
-    --gp-nav-link: #EAE0D5;
-    --gp-nav-link-hover: #E0A96D;
-    --gp-nav-hover-bg: rgba(224, 169, 109, 0.1);
+    --gp-icon-coffee: #D4A373;
+    --gp-icon-stats: #E29578;
+    --gp-nav-link: #DDD7CE;
+    --gp-nav-link-hover: #D4A373;
+    --gp-nav-hover-bg: rgba(212, 163, 115, 0.08);
 }
 
 /* Transição global suave para troca de tema */
@@ -87,17 +87,25 @@ footer,
 /* ==========================================================================
    2. LOGOTIPO ADAPTATIVO (CLARO / ESCURO)
    ========================================================================== */
-[data-bs-theme="light"] .logo-dark {
+[data-bs-theme="light"] .logo-dark,
+[data-bs-theme="light"] .logo-stacked-dark,
+[data-bs-theme="light"] .logo-icon-dark {
     display: none !important;
 }
-[data-bs-theme="light"] .logo-light {
+[data-bs-theme="light"] .logo-light,
+[data-bs-theme="light"] .logo-stacked-light,
+[data-bs-theme="light"] .logo-icon-light {
     display: inline-block !important;
 }
 
-[data-bs-theme="dark"] .logo-light {
+[data-bs-theme="dark"] .logo-light,
+[data-bs-theme="dark"] .logo-stacked-light,
+[data-bs-theme="dark"] .logo-icon-light {
     display: none !important;
 }
-[data-bs-theme="dark"] .logo-dark {
+[data-bs-theme="dark"] .logo-dark,
+[data-bs-theme="dark"] .logo-stacked-dark,
+[data-bs-theme="dark"] .logo-icon-dark {
     display: inline-block !important;
 }
 
