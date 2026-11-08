@@ -2,14 +2,15 @@
 URL configuration for grao_prosa project.
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', TemplateView.as_view(template_name='base.html'), name='home'),
 ]
 
-# Em modo de desenvolvimento, o Django serve arquivos de upload (mídia) diretamente
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
