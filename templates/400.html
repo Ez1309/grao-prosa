@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}400 - Requisição Inválida | Grão & Prosa{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-7 text-center">
+            
+            <div class="card error-card p-4 p-md-5 border shadow-sm">
+                <div class="card-body py-4">
+                    
+                    <!-- Ícone -->
+                    <div class="error-icon-wrapper mb-3">
+                        <i class="fa-solid fa-circle-exclamation display-1 icon-coffee opacity-75"></i>
+                    </div>
+
+                    <!-- Código de Status HTTP -->
+                    <div class="error-code fw-bold mb-2">400</div>
+
+                    <!-- Título -->
+                    <h2 class="h3 fw-bold mb-3">Requisição Inválida</h2>
+
+                    <!-- Descrição Clara e Objetiva -->
+                    <p class="text-body-secondary mx-auto mb-4" style="max-width: 480px;">
+                        O servidor não pôde processar a solicitação devido a uma sintaxe incorreta ou parâmetros inválidos. Verifique as informações fornecidas e tente novamente.
+                    </p>
+
+                    <!-- Ações Rápidas -->
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <a href="{% url 'home' %}" class="btn btn-coffee-fill px-4 py-2">
+                            <i class="fa-solid fa-house me-2"></i>Voltar ao Início
+                        </a>
+                        <button type="button" class="btn btn-coffee-outline px-4 py-2" onclick="window.history.back();">
+                            <i class="fa-solid fa-arrow-left me-2"></i>Página Anterior
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

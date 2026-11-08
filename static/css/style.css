@@ -531,3 +531,25 @@ footer,
     background-color: rgba(255, 255, 255, 0.02);
 }
 
+/* ==========================================================================
+   6. PÁGINAS DE ERRO HTTP (404, 403, 500, 400)
+   ========================================================================== */
+.error-card {
+    background-color: var(--gp-card-bg);
+    border-color: var(--bs-border-color) !important;
+    border-radius: 16px;
+}
+
+.error-code {
+    font-size: 5rem;
+    line-height: 1;
+    letter-spacing: -2px;
+    color: var(--gp-coffee-primary);
+    font-weight: 800;
+}
+
+.error-icon-wrapper {
+    margin-bottom: 0.5rem;
+}
+
+
