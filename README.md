@@ -13,6 +13,7 @@
   <img src="https://img.shields.io/badge/Django-5.1-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django">
   <img src="https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap 5">
   <img src="https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
   <img src="https://img.shields.io/badge/Jazzmin-Admin_Theme-333333?style=for-the-badge" alt="Jazzmin">
 </p>
@@ -30,44 +31,52 @@
 
 ## 📖 2. Descrição do Projeto
 
-O **Grão & Prosa** é uma aplicação web desenvolvida em **Django** seguindo o padrão arquitetural **MVT (Model-View-Template)**. O sistema funciona como um ponto de encontro para entusiastas e especialistas em cafés especiais, permitindo o catálogo de marcas e rótulos de café, a classificação por tipos de grão e pontos de torra, além de avaliações comunitárias com resenhas, notas de 1 a 5 estrelas e filtros avançados.
+O **Grão & Prosa** é uma aplicação web completa desenvolvida em **Django** seguindo o padrão arquitetural **MVT (Model-View-Template)**. O sistema funciona como uma rede social e ponto de encontro para amantes e especialistas em cafés especiais (inspirado no conceito de plataformas como Untappd, Vivino e Letterboxd).
 
-O desenvolvimento foi estruturado com foco em boas práticas de engenharia de software, modelagem relacional íntegra, persistência em banco relacional containerizado (**PostgreSQL 16** via Docker) e interface administrativa customizada via **Jazzmin**.
+A plataforma permite catalogar marcas e rótulos de café com fichas técnicas detalhadas, explorar resenhas sensoriais da comunidade com notas de 1 a 5 estrelas, diferenciar perfis de acesso (*Consumidores Entusiastas* vs. *Especialistas Baristas* com permissões de curadoria) e navegar em uma interface moderna e acessível com suporte a **Modo Claro e Modo Escuro** persistente.
 
 ---
 
 ## 🚀 3. Tecnologias Utilizadas
 
-* **Linguagem & Framework:** Python 3.12 e Django 5.1
-* **Persistência Relacional:** PostgreSQL 16 (via Docker) com fallback para SQLite3 local
+* **Backend:** Python 3.12 e Django 5.1 (Arquitetura MVT)
+* **Frontend:** HTML5 semântico, Bootstrap 5.3+, FontAwesome 6 e Vanilla JavaScript puro
+* **Estilização & Temas:** CSS3 customizado com variáveis CSS para suporte completo a **Dark Mode** suave e **Light Mode**
+* **Persistência Relacional:** PostgreSQL 16 (via Docker) com fallback automático para SQLite3 local
 * **Containerização:** Docker e Docker Compose
-* **Ambiente Administrativo:** `django-jazzmin` (customizado com ícones FontAwesome e suporte a Light/Dark Mode)
-* **Manipulação de Imagens:** `Pillow` (para uploads de capas de cafés e fotos de perfil)
-* **Arquivos Estáticos:** `WhiteNoise` (para serviço eficiente de estáticos em produção/container)
-* **Gestão de Configuração:** `python-decouple` (para isolamento seguro de variáveis de ambiente no `.env`)
+* **Ambiente Administrativo:** `django-jazzmin` (customizado com filtros multifacetados, inlines e ícones FontAwesome)
+* **Manipulação de Imagens:** `Pillow` (para uploads de capas de cafés e fotos de perfil/avatar)
+* **Arquivos Estáticos:** `WhiteNoise` (para serviço otimizado de estáticos em contêiner)
+* **Segurança e Variáveis de Ambiente:** `python-decouple` (isolamento de credenciais no arquivo `.env`)
 
 ---
 
 ## 🎯 4. Funcionalidades do Sistema
 
-A aplicação possui um ecossistema completo de gestão e interação, integrando múltiplos módulos de negócio:
+### 4.1. Design System e Interface Base
+* **Navbar Responsiva:** Logotipo SVG oficial adaptativo (modo claro/escuro), barra de busca rápida, botão toggle de tema e menu dropdown do usuário com foto de perfil em miniatura.
+* **Alternância de Tema (Light / Dark Mode):** Transição suave entre tema claro e modo escuro aveludado, com preferência gravada no `localStorage` do navegador e script anti-flicker no cabeçalho.
+* **Sem Azul Padrão:** Identidade visual 100% harmonizada nos tons de café, avelã, crema e carvão suave para todos os botões, links, dropdowns e abas.
+* **Mensagens de Feedback:** Alertas contextuais do Django (`django.contrib.messages`) com ícones e botão de fechar.
 
-* **Modelagem Relacional de Dados (3 Apps Modularizados):**
-  * **App `usuarios`:** Modelo `Perfil` estendendo o `User` nativo (`OneToOneField`) com enums `TipoPerfil` e `TipoTorra`, biografia, foto de avatar e gatilho de criação automática via *Django Signals* (`post_save`).
-  * **App `catalogo`:** Modelos `Marca` (país de origem, história, site oficial) e `Cafe` (relacionamento FK, enums `TipoGrao` e `TipoTorra`, intensidade 1 a 10 com `MinValueValidator`/`MaxValueValidator`, notas sensoriais, imagem de capa, booleano de destaque e cálculo automático de `nota_media` agregada).
-  * **App `avaliacoes`:** Modelo `Review` (relacionamento N:1 com `User` e `Cafe`, nota de 1 a 5, comentário, constraint `unique_together = ('usuario', 'cafe')` para impedir spam e ordenação decrescente por data).
-* **Painel Administrativo Customizado (Jazzmin):**
-  * Interface moderna substituindo o padrão do Django pelo tema **Jazzmin** (Bootstrap 4 / AdminLTE 3).
-  * Títulos e cabeçalhos em português do Brasil e menus laterais com ícones do **FontAwesome**.
-  * Alternância integrada entre **Modo Claro** e **Modo Escuro** (*Dark Mode*).
-* **Filtros e Recursos Avançados no Admin:**
-  * Filtros laterais multifacetados (`list_filter`) por tipo de grão, ponto de torra, marcas cadastradas, destaque e faixa de notas.
-  * Hierarquia de datas (`date_hierarchy = 'data_avaliacao'`) para navegação cronológica das avaliações.
-  * Busca textual dinâmica (`search_fields`) por múltiplos campos indexados.
-  * Edição inline: componente `ReviewInline` (`TabularInline`) embutido na edição do Café e `PerfilInline` (`StackedInline`) na tela de Usuários.
-  * Edição rápida em lote na lista (`list_editable`) para o campo de destaque.
-* **Script para Povoamento do Banco de Dados:**
-  * Script standalone `scripts-bd/popula_cafes.py` que injeta 5 marcas conceituadas e 25 cafés com avaliações para testes e validação imediata do ambiente.
+### 4.2. Autenticação e Gestão de Usuários (`usuarios`)
+* **Login Flexível:** Autenticação primária por **E-mail** (ou Nome de Usuário) e senha, com alternância de visibilidade de senha (ícone de olho) e mensagens claras de erro.
+* **Cadastro de Conta:** Formulário vertical limpo com validação em tempo real de confirmação de senha, seleção dinâmica de torra preferida do backend e criação automática de perfil `ENTUSIASTA`.
+* **Logout Seguro:** Encerramento de sessão com mensagens informativas de retorno.
+
+### 4.3. Módulo de Perfil do Usuário (`/usuarios/perfil/`)
+* **Identificação e Badges:** Exibição da foto de perfil (avatar), nome, `@username`, badge de papel (*Consumidor / Entusiasta* ou *Especialista / Barista*), badge de torra favorita e data de cadastro.
+* **Métricas de Atividade:** Total de avaliações postadas e média geral de notas concedidas pelo usuário.
+* **Aba "Meus Cafés Avaliados":** Lista cronológica das resenhas registradas pelo usuário, notas em estrelas douradas de 1 a 5, marcas e características sensoriais.
+* **Aba "Editar Perfil":** Formulário completo para atualização de nome, e-mail, biografia (com contador de até 500 caracteres), ponto de torra e upload/remoção de avatar.
+
+### 4.4. Páginas de Erro Personalizadas
+* **Tratamento de Exceções HTTP:** Templates amigáveis, responsivos e profissionais integrados aos handlers do Django para **404** (Página Não Encontrada), **403** (Acesso Negado), **500** (Erro Interno do Servidor) e **400** (Requisição Inválida).
+
+### 4.5. Modelagem Relacional e Painel Administrativo
+* **App `catalogo`:** Modelos `Marca` e `Cafe` (ponto de torra, tipo de grão, intensidade 1 a 10, notas aromáticas, capa e destaque).
+* **App `avaliacoes`:** Modelo `Review` com nota de 1 a 5 estrelas, comentário e restrição de unicidade `unique_together = ('usuario', 'cafe')`.
+* **Jazzmin Admin:** Painel administrativo customizado em português, com filtros laterais multifacetados, busca textual ampla, navegação por datas (`date_hierarchy`) e edição inline (`ReviewInline` e `PerfilInline`).
 
 ---
 
@@ -98,18 +107,15 @@ A aplicação possui um ecossistema completo de gestão e interação, integrand
    ```
    *(O Docker aplicará as migrações automaticamente na inicialização).*
 
-4. **Popule o banco de dados com os dados iniciais de teste:**
+4. **Popule o banco de dados com os dados iniciais de teste (25 cafés e reviews):**
    ```bash
    docker compose exec web python scripts-bd/popula_cafes.py
    ```
 
-5. **Crie um superusuário para acessar o painel administrativo:**
+5. **Crie um superusuário para o painel administrativo (opcional, caso queira credencial própria):**
    ```bash
    docker compose exec web python manage.py createsuperuser
    ```
-
-6. **Acesse a aplicação no navegador:**
-   * Painel Administrativo: **[http://localhost:8000/admin/](http://localhost:8000/admin/)**
 
 ---
 
@@ -132,51 +138,91 @@ A aplicação possui um ecossistema completo de gestão e interação, integrand
    ```bash
    cp .env.example .env
    ```
-   *(No arquivo `.env`, configure `DB_ENGINE=django.db.backends.sqlite3` para utilizar o banco SQLite local).*
+   *(No arquivo `.env`, mantenha `DB_ENGINE=django.db.backends.sqlite3` para utilizar o banco SQLite local).*
 
 4. **Execute as migrações e popule o banco:**
    ```bash
    python manage.py migrate
    python scripts-bd/popula_cafes.py
-   python manage.py createsuperuser
    ```
 
 5. **Inicie o servidor de desenvolvimento:**
    ```bash
    python manage.py runserver
    ```
-   Acesse: **[http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)**
 
 ---
 
-## 📁 6. Estrutura do Projeto
+## 🔑 6. Credenciais de Teste para Avaliação
+
+Para facilitar a navegação e a validação do professor/avaliador, utilize as contas pré-configuradas no banco de dados populado:
+
+| Tipo de Usuário | E-mail de Login | Usuário | Senha | Descrição |
+| :--- | :--- | :--- | :--- | :--- |
+| **Entusiasta / Avaliador** | `degustador@graoeprosa.com` | `degustador` | `senha123` | Perfil completo com bio, preferências, avatar e **25 reviews cadastradas** para conferência. |
+| **Administrador / Staff** | `admin@graoprosa.com` | `admin` | `admin123` | Acesso total ao painel administrativo Jazzmin em `/admin/`. |
+
+---
+
+## 🌐 7. Principais Rotas da Aplicação
+
+* **Página Inicial:** [http://localhost:8000/](http://localhost:8000/)
+* **Tela de Login:** [http://localhost:8000/usuarios/login/](http://localhost:8000/usuarios/login/)
+* **Tela de Cadastro:** [http://localhost:8000/usuarios/cadastro/](http://localhost:8000/usuarios/cadastro/)
+* **Perfil do Usuário:** [http://localhost:8000/usuarios/perfil/](http://localhost:8000/usuarios/perfil/) *(requer login)*
+* **Painel Administrativo:** [http://localhost:8000/admin/](http://localhost:8000/admin/)
+* **Pré-visualização das Telas de Erro:**
+  * 404: [http://localhost:8000/erros/404/](http://localhost:8000/erros/404/)
+  * 403: [http://localhost:8000/erros/403/](http://localhost:8000/erros/403/)
+  * 500: [http://localhost:8000/erros/500/](http://localhost:8000/erros/500/)
+  * 400: [http://localhost:8000/erros/400/](http://localhost:8000/erros/400/)
+
+---
+
+## 📁 8. Estrutura do Projeto
 
 ```text
 grao-prosa/
 ├── avaliacoes/              # App de Avaliações e Reviews
 │   ├── migrations/          # Migrações do banco de dados
 │   ├── admin.py             # Admin de Reviews e TabularInline
-│   └── models.py            # Model Review (notas 1 a 5, constraints)
+│   └── models.py            # Model Review (notas 1 a 5, constraints de unicidade)
 ├── catalogo/                # App de Catálogo de Cafés e Marcas
 │   ├── migrations/          # Migrações do catálogo
 │   ├── admin.py             # Admin com filtros, buscas e inline de reviews
-│   └── models.py            # Models Marca e Cafe (choices, nota_media)
-├── usuarios/                # App de Gestão de Usuários
+│   └── models.py            # Models Marca e Cafe (choices, nota_media agregada)
+├── usuarios/                # App de Autenticação e Perfis
 │   ├── migrations/          # Migrações de perfis
 │   ├── admin.py             # Admin com StackedInline de perfil no User
-│   └── models.py            # Model Perfil (OneToOne, signals post_save)
-├── grao_prosa/              # Pacote de Configuração Central (Host MVT)
+│   ├── models.py            # Model Perfil (OneToOne, signals post_save)
+│   ├── urls.py              # Rotas de login, logout, cadastro e perfil
+│   └── views.py             # Lógica de login por email/username, cadastro e perfil
+├── grao_prosa/              # Pacote Central do Projeto Django
 │   ├── asgi.py
 │   ├── settings.py          # Configurações globais, Jazzmin, DB e WhiteNoise
-│   ├── urls.py              # Roteamento central e media handlers
+│   ├── urls.py              # Roteamento central, media e handlers de erro HTTP
+│   ├── views.py             # Handlers customizados (404, 403, 500, 400)
 │   └── wsgi.py
 ├── scripts-bd/              # Scripts de utilidade para o banco
 │   └── popula_cafes.py      # Carga de 5 marcas e 25 cafés com avaliações
 ├── static/                  # Arquivos estáticos globais e identidade visual
+│   ├── css/
+│   │   └── style.css        # Folha de estilos customizada (Light/Dark mode)
+│   ├── js/
+│   │   └── theme.js         # Alternância e persistência de tema no localStorage
 │   └── img/                 # Logotipos vetoriais SVG (Light e Dark mode)
-├── templates/               # Diretório de templates HTML
+├── templates/               # Diretório de templates HTML (Bootstrap 5)
+│   ├── base.html            # Casca base com navbar responsiva e rodapé
+│   ├── 400.html             # Página de Requisição Inválida
+│   ├── 403.html             # Página de Acesso Negado
+│   ├── 404.html             # Página de Página Não Encontrada
+│   ├── 500.html             # Página de Erro Interno do Servidor
+│   └── usuarios/            # Templates do app de usuários
+│       ├── login.html       # Tela de login imersiva
+│       ├── cadastro.html    # Tela de cadastro em fluxo vertical
+│       └── perfil.html      # Perfil social com histórico de resenhas e edição
 ├── .env.example             # Modelo das variáveis de ambiente
-├── .gitignore               # Higiene de versionamento (protege dados sensíveis)
+├── .gitignore               # Higiene de versionamento (ignora media/ e segredos)
 ├── docker-compose.yml       # Orquestração dos containers Web e DB
 ├── Dockerfile               # Definição da imagem da aplicação Django
 ├── manage.py                # Utilitário CLI de gestão do Django
@@ -186,17 +232,17 @@ grao-prosa/
 
 ---
 
-## 🌿 7. Estratégia de Versionamento e Branches
+## 🌿 9. Estratégia de Versionamento e Branches
 
-O projeto segue o modelo **Git Flow** para organização colaborativa:
-* **`main`:** Código estável e validado para entregas oficiais.
+O projeto segue rigorosamente o modelo **Git Flow** estabelecido nas diretrizes do edital:
+* **`main`:** Versão estável do software para avaliações oficiais.
 * **`develop`:** Branch principal de integração contínua da equipe.
-* **`feature/<modulo>`:** Branches isoladas de desenvolvimento utilizadas por cada integrante:
-  * `feature/infra-setup-usuarios`
-  * `feature/catalogo-avaliacoes`
+* **`feature/<modulo>`:** Branches individuais de desenvolvimento:
+  * `feature/auth-perfil-base-ui`: Casca base, temas, login/logout, cadastro, perfil social e páginas de erro *(Pessoa A)*.
+  * `feature/catalogo-reviews-dashboard`: Feed, detalhes, curadoria de especialista e dashboard *(Pessoa B)*.
 
 ---
 
-## 📄 8. Licença
+## 📄 10. Licença
 
 Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
