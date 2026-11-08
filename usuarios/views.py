@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import TipoTorra, TipoPerfil
+from django.db.models import Avg
+from .models import TipoTorra, TipoPerfil, Perfil
+from avaliacoes.models import Review
 
 def login_view(request):
     """
@@ -111,3 +114,69 @@ def cadastro_view(request):
         'tipo_torra_choices': TipoTorra.choices,
     }
     return render(request, 'usuarios/cadastro.html', context)
+
+
+@login_required(login_url='usuarios:login')
+def meu_perfil(request):
+    """
+    Exibição e atualização do perfil do usuário logado, com histórico
+    de cafés avaliados e métricas de atividade.
+    """
+    perfil, _ = Perfil.objects.get_or_create(usuario=request.user)
+    aba_ativa = request.GET.get('tab', 'avaliacoes')
+
+    if request.method == 'POST':
+        nome = request.POST.get('nome', '').strip()
+        email = request.POST.get('email', '').strip().lower()
+        bio = request.POST.get('bio', '').strip()
+        torra_preferida = request.POST.get('torra_preferida', '')
+        remover_avatar = request.POST.get('remover_avatar') == '1'
+
+        # Validação de e-mail (caso tenha sido alterado)
+        if email and email != request.user.email.lower():
+            if User.objects.filter(email__iexact=email).exclude(pk=request.user.pk).exists():
+                messages.error(request, f"O e-mail '{email}' já está em uso por outro usuário.")
+                return redirect('/usuarios/perfil/?tab=editar')
+            request.user.email = email
+
+        request.user.first_name = nome
+        request.user.save()
+
+        # Atualização dos campos do Perfil
+        perfil.bio = bio
+        if torra_preferida in dict(TipoTorra.choices):
+            perfil.torra_preferida = torra_preferida
+        elif torra_preferida == '':
+            perfil.torra_preferida = ''
+
+        # Gestão de Avatar
+        if remover_avatar:
+            if perfil.foto_avatar:
+                perfil.foto_avatar.delete(save=False)
+                perfil.foto_avatar = None
+        elif 'foto_avatar' in request.FILES:
+            perfil.foto_avatar = request.FILES['foto_avatar']
+
+        perfil.save()
+        messages.success(request, "Perfil atualizado com sucesso!")
+        return redirect('usuarios:perfil')
+
+    # Histórico de avaliações do usuário
+    reviews = Review.objects.filter(usuario=request.user).select_related(
+        'cafe', 'cafe__marca'
+    ).order_by('-data_avaliacao')
+
+    total_reviews = reviews.count()
+    media_agg = reviews.aggregate(media=Avg('nota'))['media']
+    media_notas = round(media_agg, 1) if media_agg else None
+
+    context = {
+        'perfil': perfil,
+        'tipo_torra_choices': TipoTorra.choices,
+        'reviews': reviews,
+        'total_reviews': total_reviews,
+        'media_notas': media_notas,
+        'aba_ativa': aba_ativa,
+    }
+    return render(request, 'usuarios/perfil.html', context)
+

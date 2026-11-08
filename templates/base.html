@@ -91,15 +91,20 @@
                         {% if user.is_authenticated %}
                             <div class="dropdown">
                                 <button class="btn btn-coffee-outline dropdown-toggle d-flex align-items-center gap-2" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-solid fa-user-circle"></i>
+                                    {% if user.perfil.foto_avatar %}
+                                        <img src="{{ user.perfil.foto_avatar.url }}" alt="{{ user.username }}" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;">
+                                    {% else %}
+                                        <i class="fa-solid fa-user-circle"></i>
+                                    {% endif %}
                                     <span>{{ user.first_name|default:user.username }}</span>
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown" style="border-radius: 10px; border: 1px solid var(--bs-border-color); background-color: var(--gp-card-bg);">
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
                                     <li><h6 class="dropdown-header text-body-secondary">@{{ user.username }}</h6></li>
+                                    <li><a class="dropdown-item" href="{% url 'usuarios:perfil' %}"><i class="fa-solid fa-user me-2"></i>Meu Perfil</a></li>
                                     {% if user.is_staff %}
-                                    <li><a class="dropdown-item" href="{% url 'admin:index' %}" target="_blank"><i class="fa-solid fa-screwdriver-wrench me-2"></i>Admin</a></li>
-                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'admin:index' %}" target="_blank"><i class="fa-solid fa-screwdriver-wrench me-2"></i>Painel Admin</a></li>
                                     {% endif %}
+                                    <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a class="dropdown-item text-danger d-flex align-items-center" href="{% url 'usuarios:logout' %}">
                                             <i class="fa-solid fa-right-from-bracket me-2"></i>Sair
