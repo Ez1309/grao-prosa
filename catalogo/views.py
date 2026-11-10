@@ -1,10 +1,27 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from avaliacoes.forms import ReviewForm
 
+from .forms import CafeForm, MarcaForm
 from .models import Cafe
+
+
+def eh_especialista(user):
+    """
+    Função de validação para o decorador @user_passes_test.
+    Garante acesso apenas para usuários com tipo_perfil ESPECIALISTA (ou staff/admin).
+    """
+    return (
+        user.is_authenticated
+        and (
+            user.is_superuser
+            or user.is_staff
+            or (hasattr(user, "perfil") and user.perfil.tipo_perfil == "ESPECIALISTA")
+        )
+    )
 
 
 def index(request):
@@ -75,3 +92,41 @@ def detalhes_cafe(request, cafe_id):
         "usuario_ja_avaliou": usuario_ja_avaliou,
     }
     return render(request, "catalogo/detalhes_cafe.html", context)
+
+
+@user_passes_test(eh_especialista, login_url="usuarios:login")
+def criar_marca(request):
+    """
+    Área de Curadoria: Permite ao Especialista cadastrar uma nova Marca.
+    """
+    if request.method == "POST":
+        form = MarcaForm(request.POST)
+        if form.is_valid():
+            marca = form.save()
+            messages.success(
+                request, f"Marca '{marca.nome}' cadastrada com sucesso na curadoria!"
+            )
+            return redirect("catalogo:criar_cafe")
+    else:
+        form = MarcaForm()
+
+    return render(request, "catalogo/form_marca.html", {"form": form})
+
+
+@user_passes_test(eh_especialista, login_url="usuarios:login")
+def criar_cafe(request):
+    """
+    Área de Curadoria: Permite ao Especialista cadastrar um novo Café.
+    """
+    if request.method == "POST":
+        form = CafeForm(request.POST, request.FILES)
+        if form.is_valid():
+            cafe = form.save()
+            messages.success(
+                request, f"Café '{cafe.nome}' cadastrado com sucesso no catálogo!"
+            )
+            return redirect("catalogo:detalhes_cafe", cafe_id=cafe.id)
+    else:
+        form = CafeForm()
+
+    return render(request, "catalogo/form_cafe.html", {"form": form})

@@ -45,6 +45,18 @@
                     </a>
                 </div>
             {% endif %}
+
+            {% if user.is_authenticated and user.perfil.tipo_perfil == 'ESPECIALISTA' or user.is_staff %}
+                <div class="mt-4 pt-3 border-top d-flex flex-wrap justify-content-center align-items-center gap-2">
+                    <span class="small text-body-secondary me-2"><i class="fas fa-award text-warning me-1"></i>Curadoria de Especialista:</span>
+                    <a href="{% url 'catalogo:criar_cafe' %}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus me-1"></i>Cadastrar Café
+                    </a>
+                    <a href="{% url 'catalogo:criar_marca' %}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-tag me-1"></i>Cadastrar Marca
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 
