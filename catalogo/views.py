@@ -1,12 +1,13 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import user_passes_test
-from django.db.models import Q
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Avg, Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from avaliacoes.forms import ReviewForm
+from avaliacoes.models import Review
 
 from .forms import CafeForm, MarcaForm
-from .models import Cafe
+from .models import Cafe, Marca
 
 
 def eh_especialista(user):
@@ -130,3 +131,92 @@ def criar_cafe(request):
         form = CafeForm()
 
     return render(request, "catalogo/form_cafe.html", {"form": form})
+
+
+@login_required(login_url="usuarios:login")
+def dashboard(request):
+    """
+    Bloco 4: Dashboard Analítico com métricas gerenciais e gráficos interativos Chart.js.
+    Apresenta KPIs consolidados, distribuição por torra, top 5 cafés avaliados e histograma de notas.
+    """
+    # Métricas Executivas (KPIs)
+    total_cafes = Cafe.objects.count()
+    total_marcas = Marca.objects.count()
+    total_avaliacoes = Review.objects.count()
+    media_geral_agg = Review.objects.aggregate(Avg("nota"))["nota__avg"]
+    media_geral = round(media_geral_agg, 1) if media_geral_agg else 0.0
+
+    # 1. Distribuição de Cafés por Ponto de Torra (Donut Chart)
+    torra_counts = (
+        Cafe.objects.values("tipo_torra")
+        .annotate(total=Count("id"))
+        .order_by("tipo_torra")
+    )
+    torra_dict = {item["tipo_torra"]: item["total"] for item in torra_counts}
+    torra_labels = [label for _, label in Cafe.TipoTorra.choices]
+    torra_data = [torra_dict.get(key, 0) for key, _ in Cafe.TipoTorra.choices]
+
+    # 2. Top 5 Cafés Mais Bem Avaliados (Bar Chart)
+    top_cafes_qs = (
+        Cafe.objects.select_related("marca")
+        .annotate(
+            media_nota=Avg("avaliacoes__nota"),
+            total_revs=Count("avaliacoes"),
+        )
+        .filter(total_revs__gt=0)
+        .order_by("-media_nota", "-total_revs", "nome")[:5]
+    )
+    top_cafes_labels = [f"{c.nome} ({c.marca.nome})" for c in top_cafes_qs]
+    top_cafes_medias = [round(float(c.media_nota), 1) for c in top_cafes_qs]
+    top_cafes_totais = [c.total_revs for c in top_cafes_qs]
+
+    # 3. Histograma de Notas (1 a 5 estrelas)
+    notas_counts = (
+        Review.objects.values("nota")
+        .annotate(total=Count("id"))
+        .order_by("nota")
+    )
+    notas_dict = {item["nota"]: item["total"] for item in notas_counts}
+    histograma_labels = ["1 Estrela", "2 Estrelas", "3 Estrelas", "4 Estrelas", "5 Estrelas"]
+    histograma_data = [notas_dict.get(n, 0) for n in range(1, 6)]
+
+    # 4. Distribuição por Tipo de Grão (Complementar para Donut/Polar)
+    grao_counts = (
+        Cafe.objects.values("tipo_grao")
+        .annotate(total=Count("id"))
+        .order_by("tipo_grao")
+    )
+    grao_dict = {item["tipo_grao"]: item["total"] for item in grao_counts}
+    grao_labels = [label for _, label in Cafe.TipoGrao.choices]
+    grao_data = [grao_dict.get(key, 0) for key, _ in Cafe.TipoGrao.choices]
+
+    dashboard_json = {
+        "torra": {
+            "labels": torra_labels,
+            "data": torra_data,
+        },
+        "top_cafes": {
+            "labels": top_cafes_labels,
+            "medias": top_cafes_medias,
+            "totais": top_cafes_totais,
+        },
+        "histograma": {
+            "labels": histograma_labels,
+            "data": histograma_data,
+        },
+        "grao": {
+            "labels": grao_labels,
+            "data": grao_data,
+        },
+    }
+
+    context = {
+        "total_cafes": total_cafes,
+        "total_marcas": total_marcas,
+        "total_avaliacoes": total_avaliacoes,
+        "media_geral": media_geral,
+        "top_cafes_lista": top_cafes_qs,
+        "dashboard_data": dashboard_json,
+    }
+    return render(request, "catalogo/dashboard.html", context)
+
