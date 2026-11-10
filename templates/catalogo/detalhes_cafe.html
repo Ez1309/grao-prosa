@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ cafe.nome }} | Grão & Prosa{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'catalogo:index' %}">Catálogo</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ cafe.nome }}</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <!-- Coluna Esquerda: Ficha Técnica e Imagem -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm overflow-hidden mb-4">
+                {% if cafe.imagem %}
+                    <img src="{{ cafe.imagem.url }}" class="img-fluid w-100" alt="{{ cafe.nome }}" style="max-height: 380px; object-fit: cover;">
+                {% else %}
+                    <div class="bg-secondary-subtle d-flex align-items-center justify-content-center" style="height: 320px;">
+                        <i class="fas fa-mug-hot fa-4x text-secondary"></i>
+                    </div>
+                {% endif %}
+                <div class="card-body">
+                    <span class="badge bg-secondary mb-2">{{ cafe.get_tipo_torra_display }}</span>
+                    <span class="badge bg-info text-dark mb-2">{{ cafe.get_tipo_grao_display }}</span>
+                    {% if cafe.destaque %}
+                        <span class="badge bg-warning text-dark mb-2"><i class="fas fa-star me-1"></i>Destaque</span>
+                    {% endif %}
+
+                    <h2 class="card-title fw-bold mb-1">{{ cafe.nome }}</h2>
+                    <h5 class="text-primary mb-3">{{ cafe.marca.nome }}</h5>
+                    
+                    <p class="card-text text-body-secondary">{{ cafe.descricao }}</p>
+
+                    <hr>
+
+                    <h6 class="fw-bold mb-3"><i class="fas fa-list-check me-2 text-primary"></i>Especificações Técnicas</h6>
+                    <ul class="list-group list-group-flush small">
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span class="text-body-secondary">Intensidade:</span>
+                            <strong>{{ cafe.intensidade }} / 10</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span class="text-body-secondary">Região de Origem:</span>
+                            <strong>{{ cafe.origem_grao|default:"Não informada" }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span class="text-body-secondary">Notas Sensoriais:</span>
+                            <strong>{{ cafe.notas_aromaticas|default:"Equilibrado" }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span class="text-body-secondary">País da Marca:</span>
+                            <strong>{{ cafe.marca.pais_origem }}</strong>
+                        </li>
+                        {% if cafe.marca.site_oficial %}
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span class="text-body-secondary">Website Oficial:</span>
+                            <a href="{{ cafe.marca.site_oficial }}" target="_blank" rel="noopener">Acessar site</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna Direita: Avaliações e Formulário -->
+        <div class="col-lg-7">
+            <!-- Resumo da Avaliação -->
+            <div class="card border-0 shadow-sm p-3 mb-4">
+                <div class="d-flex align-items-center">
+                    <div class="display-5 fw-bold text-warning me-3">
+                        <i class="fas fa-star"></i> {{ cafe.nota_media }}
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Avaliação Geral da Comunidade</h5>
+                        <small class="text-body-secondary">{{ cafe.total_avaliacoes }} avaliação(ões) registrada(s)</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário de Nova Avaliação -->
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <h5 class="fw-bold mb-3"><i class="fas fa-pen-nib me-2 text-primary"></i>Deixe sua Avaliação</h5>
+                
+                {% if user.is_authenticated %}
+                    {% if usuario_ja_avaliou %}
+                        <div class="alert alert-info mb-0" role="alert">
+                            <i class="fas fa-info-circle me-1"></i>Você já avaliou este café. Para manter a integridade das métricas, é permitida uma avaliação por produto.
+                        </div>
+                    {% else %}
+                        <form method="POST" action="{% url 'catalogo:detalhes_cafe' cafe.id %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="{{ form.nota.id_for_label }}" class="form-label fw-semibold">Nota:</label>
+                                {{ form.nota }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ form.comentario.id_for_label }}" class="form-label fw-semibold">Seu Comentário:</label>
+                                {{ form.comentario }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-1"></i>Publicar Avaliação
+                            </button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-light border mb-0 text-center py-3">
+                        <p class="mb-2 text-body-secondary">Você precisa estar conectado para avaliar este café.</p>
+                        <a href="{% url 'usuarios:login' %}" class="btn btn-sm btn-outline-primary me-2">Entrar</a>
+                        <a href="{% url 'usuarios:cadastro' %}" class="btn btn-sm btn-primary">Criar Conta</a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Feed de Avaliações -->
+            <h5 class="fw-bold mb-3"><i class="fas fa-comments me-2 text-primary"></i>Comentários da Comunidade</h5>
+            {% for review in avaliacoes %}
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center">
+                                {% if review.usuario.perfil.foto_avatar %}
+                                    <img src="{{ review.usuario.perfil.foto_avatar.url }}" alt="{{ review.usuario.username }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                {% else %}
+                                    <i class="fas fa-user-circle fa-2x text-secondary me-2"></i>
+                                {% endif %}
+                                <div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <h6 class="mb-0 fw-bold">{{ review.usuario.first_name|default:review.usuario.username }}</h6>
+                                        {% if review.usuario.perfil.tipo_perfil == 'ESPECIALISTA' %}
+                                            <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle" title="Avaliação de Especialista / Barista">
+                                                <i class="fas fa-award me-1"></i>Especialista
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                    <small class="text-body-secondary">
+                                        @{{ review.usuario.username }} &bull; {{ review.usuario.perfil.get_tipo_perfil_display|default:"Consumidor" }}
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="text-warning">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= review.nota %}
+                                        <i class="fas fa-star"></i>
+                                    {% else %}
+                                        <i class="far fa-star text-secondary-subtle"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <p class="card-text mt-2 text-body-secondary">{{ review.comentario }}</p>
+                        <small class="text-muted d-block text-end">{{ review.data_avaliacao|date:"d/m/Y H:i" }}</small>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="text-center py-4 text-muted">
+                    <i class="far fa-comment-dots fa-2x mb-2 d-block"></i>
+                    Seja o primeiro a avaliar este café!
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,17 +1,20 @@
 """
 URL configuration for grao_prosa project.
 """
-from django.contrib import admin
-from django.urls import path, include
-from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
+
+from catalogo import views as catalogo_views
+
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='base.html'), name='home'),
+    path('', catalogo_views.index, name='home'),
     path('usuarios/', include('usuarios.urls')),
+    path('catalogo/', include('catalogo.urls')),
 ]
 
 # Handlers padrão de erro HTTP para produção (DEBUG=False)
