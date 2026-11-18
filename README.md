@@ -78,6 +78,23 @@ A plataforma permite catalogar marcas e rótulos de café com fichas técnicas d
 * **App `avaliacoes`:** Modelo `Review` com nota de 1 a 5 estrelas, comentário e restrição de unicidade `unique_together = ('usuario', 'cafe')`.
 * **Jazzmin Admin:** Painel administrativo customizado em português, com filtros laterais multifacetados, busca textual ampla, navegação por datas (`date_hierarchy`) e edição inline (`ReviewInline` e `PerfilInline`).
 
+### 4.6. Catálogo de Cafés e Busca (`/`)
+* **Feed do Catálogo:** Página inicial com a vitrine de cafés, capas, marca, ponto de torra, nota média e total de avaliações.
+* **Busca Textual:** Pesquisa por nome do café, marca, notas sensoriais ou região de origem.
+* **Filtros:** Filtragem combinável por ponto de torra e tipo de grão.
+
+### 4.7. Detalhes do Café e Avaliações (`/catalogo/<id>/`)
+* **Ficha Técnica:** Marca, tipo de grão, torra, intensidade, origem, notas sensoriais, descrição e nota média.
+* **Resenhas da Comunidade:** Lista das avaliações com autor, nota em estrelas e comentário.
+* **Formulário de Avaliação:** Usuários autenticados enviam uma nota de 1 a 5 e um comentário sensorial — limitado a **uma avaliação por usuário e café**. Visitantes são direcionados ao login.
+
+### 4.8. Área de Curadoria do Especialista
+* **Cadastro de Marcas e Cafés:** Formulários `/catalogo/marca/nova/` e `/catalogo/cafe/novo/` (com upload de capa), acessíveis a perfis `ESPECIALISTA`, staff e superusuários, com links no menu do usuário.
+
+### 4.9. Dashboard Analítico (`/catalogo/dashboard/`)
+* **KPIs:** Total de cafés, marcas, avaliações e média geral de notas.
+* **Gráficos Interativos (Chart.js):** Distribuição por ponto de torra, top 5 cafés mais bem avaliados, histograma de notas (1 a 5 estrelas) e distribuição por tipo de grão. Requer login.
+
 ---
 
 ## ⚙️ 5. Instruções de Instalação e Execução
@@ -107,12 +124,12 @@ A plataforma permite catalogar marcas e rótulos de café com fichas técnicas d
    ```
    *(O Docker aplicará as migrações automaticamente na inicialização).*
 
-4. **Popule o banco de dados com os dados iniciais de teste (25 cafés e reviews):**
+4. **Popule o banco de dados com os dados iniciais de teste (9 marcas, 18 cafés com imagens e avaliações):**
    ```bash
    docker compose exec web python scripts-bd/popula_cafes.py
    ```
 
-5. **Crie um superusuário para o painel administrativo (opcional, caso queira credencial própria):**
+5. **Crie um superusuário próprio (opcional — o script já cria o usuário `admin`):**
    ```bash
    docker compose exec web python manage.py createsuperuser
    ```
@@ -155,12 +172,15 @@ A plataforma permite catalogar marcas e rótulos de café com fichas técnicas d
 
 ## 🔑 6. Credenciais de Teste para Avaliação
 
-Para facilitar a navegação e a validação do professor/avaliador, utilize as contas pré-configuradas no banco de dados populado:
+Para facilitar a navegação e a validação do professor/avaliador, o script `scripts-bd/popula_cafes.py` cria as seguintes contas:
 
 | Tipo de Usuário | E-mail de Login | Usuário | Senha | Descrição |
 | :--- | :--- | :--- | :--- | :--- |
-| **Entusiasta / Avaliador** | `degustador@graoeprosa.com` | `degustador` | `senha123` | Perfil completo com bio, preferências, avatar e **25 reviews cadastradas** para conferência. |
-| **Administrador / Staff** | `admin@graoprosa.com` | `admin` | `admin123` | Acesso total ao painel administrativo Jazzmin em `/admin/`. |
+| **Entusiasta / Avaliador** | `degustador@graoeprosa.com` | `degustador` | `senha123` | Possui uma avaliação em cada um dos **18 cafés** do catálogo. |
+| **Entusiasta / Avaliador** | `cadu@graoeprosa.com` | `barista_cadu` | `senha123` | Segundo avaliador, também com uma avaliação em cada café. |
+| **Administrador / Staff** | `admin@graoprosa.com` | `admin` | `admin123` | Superusuário com acesso total ao painel Jazzmin em `/admin/` e à Área de Curadoria. |
+
+> **Observação:** contas já existentes não têm a senha redefinida ao rodar o script novamente. Para testar a Área de Curadoria, altere o *Tipo de Perfil* de um usuário para `Especialista` no admin.
 
 ---
 
@@ -170,6 +190,10 @@ Para facilitar a navegação e a validação do professor/avaliador, utilize as 
 * **Tela de Login:** [http://localhost:8000/usuarios/login/](http://localhost:8000/usuarios/login/)
 * **Tela de Cadastro:** [http://localhost:8000/usuarios/cadastro/](http://localhost:8000/usuarios/cadastro/)
 * **Perfil do Usuário:** [http://localhost:8000/usuarios/perfil/](http://localhost:8000/usuarios/perfil/) *(requer login)*
+* **Detalhes de um Café:** `http://localhost:8000/catalogo/<id>/`
+* **Dashboard Analítico:** [http://localhost:8000/catalogo/dashboard/](http://localhost:8000/catalogo/dashboard/) *(requer login)*
+* **Curadoria — Nova Marca:** [http://localhost:8000/catalogo/marca/nova/](http://localhost:8000/catalogo/marca/nova/) *(Especialista/Staff)*
+* **Curadoria — Novo Café:** [http://localhost:8000/catalogo/cafe/novo/](http://localhost:8000/catalogo/cafe/novo/) *(Especialista/Staff)*
 * **Painel Administrativo:** [http://localhost:8000/admin/](http://localhost:8000/admin/)
 * **Pré-visualização das Telas de Erro:**
   * 404: [http://localhost:8000/erros/404/](http://localhost:8000/erros/404/)
@@ -186,15 +210,22 @@ grao-prosa/
 ├── avaliacoes/              # App de Avaliações e Reviews
 │   ├── migrations/          # Migrações do banco de dados
 │   ├── admin.py             # Admin de Reviews e TabularInline
-│   └── models.py            # Model Review (notas 1 a 5, constraints de unicidade)
+│   ├── forms.py             # ReviewForm (nota e comentário)
+│   ├── models.py            # Model Review (notas 1 a 5, constraints de unicidade)
+│   └── tests.py             # Testes do app
 ├── catalogo/                # App de Catálogo de Cafés e Marcas
 │   ├── migrations/          # Migrações do catálogo
 │   ├── admin.py             # Admin com filtros, buscas e inline de reviews
-│   └── models.py            # Models Marca e Cafe (choices, nota_media agregada)
+│   ├── forms.py             # MarcaForm e CafeForm (curadoria)
+│   ├── models.py            # Models Marca e Cafe (choices, nota_media agregada)
+│   ├── tests.py             # Testes do dashboard analítico
+│   ├── urls.py              # Rotas do catálogo, detalhes, curadoria e dashboard
+│   └── views.py             # Catálogo/busca, detalhes + avaliações, curadoria e dashboard
 ├── usuarios/                # App de Autenticação e Perfis
 │   ├── migrations/          # Migrações de perfis
 │   ├── admin.py             # Admin com StackedInline de perfil no User
 │   ├── models.py            # Model Perfil (OneToOne, signals post_save)
+│   ├── tests.py             # Testes do app
 │   ├── urls.py              # Rotas de login, logout, cadastro e perfil
 │   └── views.py             # Lógica de login por email/username, cadastro e perfil
 ├── grao_prosa/              # Pacote Central do Projeto Django
@@ -204,12 +235,14 @@ grao-prosa/
 │   ├── views.py             # Handlers customizados (404, 403, 500, 400)
 │   └── wsgi.py
 ├── scripts-bd/              # Scripts de utilidade para o banco
-│   └── popula_cafes.py      # Carga de 5 marcas e 25 cafés com avaliações
+│   ├── assets/cafes/        # Imagens de capa copiadas para media/cafes/
+│   └── popula_cafes.py      # Carga de 9 marcas, 18 cafés, usuários de teste e avaliações
 ├── static/                  # Arquivos estáticos globais e identidade visual
 │   ├── css/
 │   │   └── style.css        # Folha de estilos customizada (Light/Dark mode)
 │   ├── js/
-│   │   └── theme.js         # Alternância e persistência de tema no localStorage
+│   │   ├── theme.js         # Alternância e persistência de tema no localStorage
+│   │   └── chart.umd.min.js # Chart.js (gráficos do dashboard)
 │   └── img/                 # Logotipos vetoriais SVG (Light e Dark mode)
 ├── templates/               # Diretório de templates HTML (Bootstrap 5)
 │   ├── base.html            # Casca base com navbar responsiva e rodapé
@@ -217,6 +250,12 @@ grao-prosa/
 │   ├── 403.html             # Página de Acesso Negado
 │   ├── 404.html             # Página de Página Não Encontrada
 │   ├── 500.html             # Página de Erro Interno do Servidor
+│   ├── catalogo/            # Templates do app de catálogo
+│   │   ├── index.html       # Feed do catálogo com busca e filtros
+│   │   ├── detalhes_cafe.html # Ficha técnica, resenhas e formulário de avaliação
+│   │   ├── form_marca.html  # Curadoria: cadastro de marca
+│   │   ├── form_cafe.html   # Curadoria: cadastro de café
+│   │   └── dashboard.html   # Dashboard analítico (KPIs e gráficos)
 │   └── usuarios/            # Templates do app de usuários
 │       ├── login.html       # Tela de login imersiva
 │       ├── cadastro.html    # Tela de cadastro em fluxo vertical

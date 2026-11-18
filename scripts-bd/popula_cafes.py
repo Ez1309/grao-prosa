@@ -463,6 +463,17 @@ def popular_banco():
 
     avaliadores = [usuario_degustador, usuario_barista]
 
+    # Superusuário para acesso ao painel administrativo (/admin/)
+    usuario_admin, criado = User.objects.get_or_create(
+        username="admin", defaults={"email": "admin@graoprosa.com"}
+    )
+    if criado:
+        usuario_admin.set_password("admin123")
+        usuario_admin.is_staff = True
+        usuario_admin.is_superuser = True
+        usuario_admin.save()
+        print("-> Superusuário 'admin' criado (senha: admin123).")
+
     # 3. Criação ou atualização das 9 Marcas
     marcas_map = {}
     for data in MARCAS_DATA:
