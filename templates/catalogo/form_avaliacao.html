@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Avaliação | {{ review.cafe.nome }} | Grão & Prosa{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'catalogo:index' %}">Catálogo</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'catalogo:detalhes_cafe' review.cafe.id %}">{{ review.cafe.nome }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Editar Avaliação</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm p-4 p-md-5">
+                <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                    <div class="bg-primary-subtle text-primary p-3 rounded-circle me-3">
+                        <i class="fas fa-pen-nib fa-2x"></i>
+                    </div>
+                    <div>
+                        <h2 class="h4 fw-bold mb-0">Editar sua Avaliação</h2>
+                        <small class="text-body-secondary">{{ review.cafe.nome }} &bull; {{ review.cafe.marca.nome }}</small>
+                    </div>
+                </div>
+
+                <form method="POST" novalidate>
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger shadow-sm py-2 px-3 mb-3">
+                            {% for error in form.non_field_errors %}
+                                <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label for="{{ form.nota.id_for_label }}" class="form-label fw-semibold">Nota:</label>
+                        {{ form.nota }}
+                        {% for error in form.nota.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+                    </div>
+                    <div class="mb-4">
+                        <label for="{{ form.comentario.id_for_label }}" class="form-label fw-semibold">Seu Comentário:</label>
+                        {{ form.comentario }}
+                        {% for error in form.comentario.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'catalogo:detalhes_cafe' review.cafe.id %}" class="btn btn-outline-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Salvar Alterações
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
