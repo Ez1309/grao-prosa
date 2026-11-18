@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.db.models import Avg
 from .models import TipoTorra, TipoPerfil, Perfil
 from avaliacoes.models import Review
@@ -31,7 +32,14 @@ def login_view(request):
             nome_exibicao = user.first_name or user.username
             messages.success(request, f"Olá, {nome_exibicao}! Bem-vindo(a) ao Grão & Prosa.")
             next_url = request.POST.get('next') or request.GET.get('next')
-            return redirect(next_url or 'home')
+            # Evita open redirect: só aceita URLs do próprio host
+            if next_url and url_has_allowed_host_and_scheme(
+                next_url,
+                allowed_hosts={request.get_host()},
+                require_https=request.is_secure(),
+            ):
+                return redirect(next_url)
+            return redirect('home')
         else:
             messages.error(request, "E-mail ou senha inválidos. Por favor, verifique suas credenciais.")
             return render(request, 'usuarios/login.html', {'email': email_ou_usuario})
