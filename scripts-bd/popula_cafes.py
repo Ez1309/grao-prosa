@@ -515,7 +515,9 @@ def popular_banco():
         sample_comentarios = random.sample(COMENTARIOS_AVALIACOES, k=2)
         for idx, (nota, comentario) in enumerate(sample_comentarios):
             user = avaliadores[idx % len(avaliadores)]
-            _, rev_created = Review.objects.update_or_create(
+            # get_or_create: avaliações existentes não são regravadas em novas execuções,
+            # evitando que atualizado_em mude e elas apareçam como "(editada)"
+            _, rev_created = Review.objects.get_or_create(
                 usuario=user,
                 cafe=cafe,
                 defaults={
