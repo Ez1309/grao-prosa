@@ -95,6 +95,48 @@ def detalhes_cafe(request, cafe_id):
     return render(request, "catalogo/detalhes_cafe.html", context)
 
 
+@login_required(login_url="usuarios:login")
+def editar_avaliacao(request, review_id):
+    """
+    Permite ao autor alterar a nota e o comentário da própria avaliação.
+    Avaliações de outros usuários retornam 404.
+    """
+    review = get_object_or_404(
+        Review.objects.select_related("cafe__marca"), id=review_id, usuario=request.user
+    )
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Avaliação atualizada com sucesso!")
+            return redirect("catalogo:detalhes_cafe", cafe_id=review.cafe_id)
+    else:
+        form = ReviewForm(instance=review)
+
+    return render(
+        request, "catalogo/form_avaliacao.html", {"form": form, "review": review}
+    )
+
+
+@login_required(login_url="usuarios:login")
+def excluir_avaliacao(request, review_id):
+    """
+    Exclui a avaliação do autor após confirmação (GET exibe a confirmação, POST exclui).
+    """
+    review = get_object_or_404(
+        Review.objects.select_related("cafe__marca"), id=review_id, usuario=request.user
+    )
+
+    if request.method == "POST":
+        cafe_id = review.cafe_id
+        review.delete()
+        messages.success(request, "Avaliação excluída com sucesso.")
+        return redirect("catalogo:detalhes_cafe", cafe_id=cafe_id)
+
+    return render(request, "catalogo/excluir_avaliacao.html", {"review": review})
+
+
 @user_passes_test(eh_especialista, login_url="usuarios:login")
 def criar_marca(request):
     """

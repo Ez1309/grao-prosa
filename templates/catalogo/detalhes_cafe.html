@@ -88,7 +88,7 @@
                 {% if user.is_authenticated %}
                     {% if usuario_ja_avaliou %}
                         <div class="alert alert-info mb-0" role="alert">
-                            <i class="fas fa-info-circle me-1"></i>Você já avaliou este café. Para manter a integridade das métricas, é permitida uma avaliação por produto.
+                            <i class="fas fa-info-circle me-1"></i>Você já avaliou este café. É permitida uma avaliação por produto — você pode editá-la ou excluí-la nos comentários abaixo.
                         </div>
                     {% else %}
                         <form method="POST" action="{% url 'catalogo:detalhes_cafe' cafe.id %}">
@@ -152,7 +152,22 @@
                             </div>
                         </div>
                         <p class="card-text mt-2 text-body-secondary">{{ review.comentario }}</p>
-                        <small class="text-muted d-block text-end">{{ review.data_avaliacao|date:"d/m/Y H:i" }}</small>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                {% if review.usuario_id == user.id %}
+                                    <a href="{% url 'catalogo:editar_avaliacao' review.id %}" class="btn btn-sm btn-outline-primary me-1">
+                                        <i class="fas fa-pen me-1"></i>Editar
+                                    </a>
+                                    <a href="{% url 'catalogo:excluir_avaliacao' review.id %}" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash-alt me-1"></i>Excluir
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <small class="text-muted">
+                                {{ review.data_avaliacao|date:"d/m/Y H:i" }}
+                                {% if review.foi_editada %}<span class="fst-italic" title="Editada em {{ review.atualizado_em|date:'d/m/Y H:i' }}">(editada)</span>{% endif %}
+                            </small>
+                        </div>
                     </div>
                 </div>
             {% empty %}

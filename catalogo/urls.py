@@ -10,4 +10,6 @@ urlpatterns = [
     path('marca/nova/', views.criar_marca, name='criar_marca'),
     path('cafe/novo/', views.criar_cafe, name='criar_cafe'),
     path('<int:cafe_id>/', views.detalhes_cafe, name='detalhes_cafe'),
+    path('avaliacao/<int:review_id>/editar/', views.editar_avaliacao, name='editar_avaliacao'),
+    path('avaliacao/<int:review_id>/excluir/', views.excluir_avaliacao, name='excluir_avaliacao'),
 ]

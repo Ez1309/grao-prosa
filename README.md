@@ -87,6 +87,7 @@ A plataforma permite catalogar marcas e rótulos de café com fichas técnicas d
 * **Ficha Técnica:** Marca, tipo de grão, torra, intensidade, origem, notas sensoriais, descrição e nota média.
 * **Resenhas da Comunidade:** Lista das avaliações com autor, nota em estrelas e comentário.
 * **Formulário de Avaliação:** Usuários autenticados enviam uma nota de 1 a 5 e um comentário sensorial — limitado a **uma avaliação por usuário e café**. Visitantes são direcionados ao login.
+* **Edição e Exclusão:** O autor pode editar a nota e o comentário (`/catalogo/avaliacao/<id>/editar/`) ou excluir a avaliação após confirmação (`/catalogo/avaliacao/<id>/excluir/`), pelos botões na página do café ou no seu perfil. Avaliações alteradas exibem o rótulo **(editada)**.
 
 ### 4.8. Área de Curadoria do Especialista
 * **Cadastro de Marcas e Cafés:** Formulários `/catalogo/marca/nova/` e `/catalogo/cafe/novo/` (com upload de capa), acessíveis a perfis `ESPECIALISTA`, staff e superusuários, com links no menu do usuário.
@@ -191,6 +192,7 @@ Para facilitar a navegação e a validação do professor/avaliador, o script `s
 * **Tela de Cadastro:** [http://localhost:8000/usuarios/cadastro/](http://localhost:8000/usuarios/cadastro/)
 * **Perfil do Usuário:** [http://localhost:8000/usuarios/perfil/](http://localhost:8000/usuarios/perfil/) *(requer login)*
 * **Detalhes de um Café:** `http://localhost:8000/catalogo/<id>/`
+* **Editar / Excluir Avaliação:** `http://localhost:8000/catalogo/avaliacao/<id>/editar/` e `.../excluir/` *(somente o autor)*
 * **Dashboard Analítico:** [http://localhost:8000/catalogo/dashboard/](http://localhost:8000/catalogo/dashboard/) *(requer login)*
 * **Curadoria — Nova Marca:** [http://localhost:8000/catalogo/marca/nova/](http://localhost:8000/catalogo/marca/nova/) *(Especialista/Staff)*
 * **Curadoria — Novo Café:** [http://localhost:8000/catalogo/cafe/novo/](http://localhost:8000/catalogo/cafe/novo/) *(Especialista/Staff)*
@@ -253,6 +255,8 @@ grao-prosa/
 │   ├── catalogo/            # Templates do app de catálogo
 │   │   ├── index.html       # Feed do catálogo com busca e filtros
 │   │   ├── detalhes_cafe.html # Ficha técnica, resenhas e formulário de avaliação
+│   │   ├── form_avaliacao.html # Edição da própria avaliação
+│   │   ├── excluir_avaliacao.html # Confirmação de exclusão da avaliação
 │   │   ├── form_marca.html  # Curadoria: cadastro de marca
 │   │   ├── form_cafe.html   # Curadoria: cadastro de café
 │   │   └── dashboard.html   # Dashboard analítico (KPIs e gráficos)

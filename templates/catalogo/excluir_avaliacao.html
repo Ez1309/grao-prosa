@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Excluir Avaliação | {{ review.cafe.nome }} | Grão & Prosa{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'catalogo:index' %}">Catálogo</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'catalogo:detalhes_cafe' review.cafe.id %}">{{ review.cafe.nome }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Excluir Avaliação</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm p-4 p-md-5 text-center">
+                <i class="fas fa-trash-alt fa-3x text-danger mb-3"></i>
+                <h2 class="h4 fw-bold">Excluir sua avaliação?</h2>
+                <p class="text-body-secondary mb-3">
+                    Sua avaliação de <strong>{{ review.cafe.nome }}</strong> ({{ review.nota }} de 5 estrelas) será removida permanentemente.
+                    Depois disso, você poderá avaliar este café novamente.
+                </p>
+                <blockquote class="border rounded p-3 text-body-secondary fst-italic mb-4">"{{ review.comentario }}"</blockquote>
+
+                <form method="POST" class="d-flex justify-content-center gap-2">
+                    {% csrf_token %}
+                    <a href="{% url 'catalogo:detalhes_cafe' review.cafe.id %}" class="btn btn-outline-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt me-1"></i>Excluir Avaliação
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

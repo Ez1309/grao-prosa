@@ -175,7 +175,14 @@
 
                                     <!-- Rodapé do Card: Data da Avaliação -->
                                     <div class="d-flex align-items-center justify-content-between text-body-secondary small pt-2 border-top">
-                                        <span><i class="fa-regular fa-clock me-1"></i>{{ review.data_avaliacao|date:"d/m/Y \à\s H:i" }}</span>
+                                        <span>
+                                            <i class="fa-regular fa-clock me-1"></i>{{ review.data_avaliacao|date:"d/m/Y \à\s H:i" }}
+                                            {% if review.foi_editada %}<span class="fst-italic">(editada)</span>{% endif %}
+                                        </span>
+                                        <span class="text-nowrap">
+                                            <a href="{% url 'catalogo:editar_avaliacao' review.id %}" class="btn btn-sm btn-coffee-outline py-0 px-2" title="Editar avaliação"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="{% url 'catalogo:excluir_avaliacao' review.id %}" class="btn btn-sm btn-outline-danger py-0 px-2" title="Excluir avaliação"><i class="fa-solid fa-trash-can"></i></a>
+                                        </span>
                                     </div>
 
                                 </div>
