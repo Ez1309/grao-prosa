@@ -1,0 +1,547 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard Analítico | Grão & Prosa{% endblock %}
+
+{% block extra_css %}
+<style>
+    .kpi-card {
+        border-radius: 1rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .kpi-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.12) !important;
+    }
+    .kpi-icon-wrapper {
+        width: 52px;
+        height: 52px;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .chart-card {
+        border-radius: 1rem;
+    }
+    .chart-container {
+        position: relative;
+        min-height: 280px;
+    }
+    .top-cafe-thumb {
+        width: 44px;
+        height: 44px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Breadcrumb e Cabeçalho -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'catalogo:index' %}">Catálogo</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Dashboard Analítico</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div>
+            <h1 class="h2 fw-bold mb-1">
+                <i class="fa-solid fa-chart-pie text-primary me-2"></i>Dashboard Analítico & Métricas
+            </h1>
+            <p class="text-body-secondary mb-0">
+                Visão gerencial consolidada do catálogo de cafés especiais, distribuição sensorial e métricas da comunidade.
+            </p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{% url 'catalogo:index' %}" class="btn btn-outline-primary d-flex align-items-center">
+                <i class="fa-solid fa-mug-hot me-2"></i>Ver Catálogo
+            </a>
+            {% if user.is_authenticated and user.perfil.tipo_perfil == 'ESPECIALISTA' or user.is_staff or user.is_superuser %}
+                <a href="{% url 'catalogo:criar_cafe' %}" class="btn btn-primary d-flex align-items-center">
+                    <i class="fa-solid fa-plus me-2"></i>Novo Café
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- KPIs Executivos -->
+    <div class="row g-3 mb-4">
+        <!-- Total de Cafés -->
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card kpi-card shadow-sm border-0 h-100 p-3">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-body-secondary small fw-semibold text-uppercase">Cafés no Catálogo</span>
+                        <h2 class="display-6 fw-bold my-1 text-primary">{{ total_cafes }}</h2>
+                        <small class="text-success"><i class="fa-solid fa-check-circle me-1"></i>Disponíveis no feed</small>
+                    </div>
+                    <div class="kpi-icon-wrapper bg-primary-subtle text-primary">
+                        <i class="fa-solid fa-mug-hot fa-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total de Marcas -->
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card kpi-card shadow-sm border-0 h-100 p-3">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-body-secondary small fw-semibold text-uppercase">Marcas Parceiras</span>
+                        <h2 class="display-6 fw-bold my-1 text-info">{{ total_marcas }}</h2>
+                        <small class="text-body-secondary"><i class="fa-solid fa-earth-americas me-1"></i>Nacionais e globais</small>
+                    </div>
+                    <div class="kpi-icon-wrapper bg-info-subtle text-info">
+                        <i class="fa-solid fa-tags fa-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total de Avaliações -->
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card kpi-card shadow-sm border-0 h-100 p-3">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-body-secondary small fw-semibold text-uppercase">Reviews da Comunidade</span>
+                        <h2 class="display-6 fw-bold my-1 text-success">{{ total_avaliacoes }}</h2>
+                        <small class="text-success"><i class="fa-solid fa-comments me-1"></i>Feedbacks reais</small>
+                    </div>
+                    <div class="kpi-icon-wrapper bg-success-subtle text-success">
+                        <i class="fa-solid fa-star-half-stroke fa-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Média Geral da Plataforma -->
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card kpi-card shadow-sm border-0 h-100 p-3">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-body-secondary small fw-semibold text-uppercase">Média da Plataforma</span>
+                        <h2 class="display-6 fw-bold my-1 text-warning">{{ media_geral }}</h2>
+                        <small class="text-warning"><i class="fa-solid fa-star me-1"></i>De 5.0 estrelas</small>
+                    </div>
+                    <div class="kpi-icon-wrapper bg-warning-subtle text-warning">
+                        <i class="fa-solid fa-award fa-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Linha 1 de Gráficos: Torra (Donut) e Top 5 (Barras) -->
+    <div class="row g-4 mb-4">
+        <!-- Gráfico 1: Ponto de Torra (Donut) -->
+        <div class="col-12 col-lg-5">
+            <div class="card chart-card shadow-sm border-0 h-100">
+                <div class="card-header bg-transparent border-0 pt-3 px-4 pb-0 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="fw-bold mb-0">Distribuição por Torra</h5>
+                        <small class="text-body-secondary">Percentual de cafés por ponto de torra</small>
+                    </div>
+                    <span class="badge bg-secondary-subtle text-body-secondary">Donut</span>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    <div class="chart-container d-flex align-items-center justify-content-center">
+                        <canvas id="torraChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico 2: Top 5 Cafés Mais Bem Avaliados (Barras) -->
+        <div class="col-12 col-lg-7">
+            <div class="card chart-card shadow-sm border-0 h-100">
+                <div class="card-header bg-transparent border-0 pt-3 px-4 pb-0 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="fw-bold mb-0">Top 5 Cafés Mais Bem Avaliados</h5>
+                        <small class="text-body-secondary">Média das notas recebidas pela comunidade</small>
+                    </div>
+                    <span class="badge bg-primary-subtle text-primary">Ranking</span>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    <div class="chart-container">
+                        <canvas id="topCafesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Linha 2 de Gráficos: Histograma de Notas e Tipos de Grãos -->
+    <div class="row g-4 mb-4">
+        <!-- Gráfico 3: Histograma de Notas -->
+        <div class="col-12 col-lg-7">
+            <div class="card chart-card shadow-sm border-0 h-100">
+                <div class="card-header bg-transparent border-0 pt-3 px-4 pb-0 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="fw-bold mb-0">Histograma de Avaliações</h5>
+                        <small class="text-body-secondary">Frequência absoluta das notas de 1 a 5 estrelas</small>
+                    </div>
+                    <span class="badge bg-warning-subtle text-dark">Distribuição</span>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    <div class="chart-container">
+                        <canvas id="histogramaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico 4: Distribuição por Tipo de Grão (Donut) -->
+        <div class="col-12 col-lg-5">
+            <div class="card chart-card shadow-sm border-0 h-100">
+                <div class="card-header bg-transparent border-0 pt-3 px-4 pb-0 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="fw-bold mb-0">Distribuição por Grão</h5>
+                        <small class="text-body-secondary">Composição botânica dos cafés cadastrados</small>
+                    </div>
+                    <span class="badge bg-success-subtle text-success">Variedades</span>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    <div class="chart-container d-flex align-items-center justify-content-center">
+                        <canvas id="graoChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela Resumo do Top 5 -->
+    {% if top_cafes_lista %}
+    <div class="card chart-card shadow-sm border-0 mb-4">
+        <div class="card-header bg-transparent border-0 pt-3 px-4 pb-0">
+            <h5 class="fw-bold mb-0"><i class="fa-solid fa-trophy text-warning me-2"></i>Destaques do Catálogo (Top 5)</h5>
+            <small class="text-body-secondary">Detalhamento dos cafés líderes em pontuação</small>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Café</th>
+                            <th>Marca</th>
+                            <th>Torra</th>
+                            <th>Grão</th>
+                            <th>Avaliações</th>
+                            <th>Nota Média</th>
+                            <th class="pe-4 text-end">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cafe in top_cafes_lista %}
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center gap-3">
+                                    {% if cafe.imagem %}
+                                        <img src="{{ cafe.imagem.url }}" alt="{{ cafe.nome }}" class="top-cafe-thumb shadow-sm">
+                                    {% else %}
+                                        <div class="top-cafe-thumb bg-secondary-subtle d-flex align-items-center justify-content-center">
+                                            <i class="fa-solid fa-mug-hot text-secondary"></i>
+                                        </div>
+                                    {% endif %}
+                                    <div>
+                                        <a href="{% url 'catalogo:detalhes_cafe' cafe.id %}" class="fw-bold text-decoration-none text-body">
+                                            {{ cafe.nome }}
+                                        </a>
+                                        {% if cafe.destaque %}
+                                            <span class="badge bg-warning text-dark ms-1"><i class="fa-solid fa-star me-1"></i>Destaque</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="text-primary fw-semibold">{{ cafe.marca.nome }}</span></td>
+                            <td><span class="badge bg-secondary-subtle text-body">{{ cafe.get_tipo_torra_display }}</span></td>
+                            <td><span class="badge bg-info-subtle text-info-emphasis">{{ cafe.get_tipo_grao_display }}</span></td>
+                            <td><span class="text-body-secondary">{{ cafe.total_revs }} avaliaç{{ cafe.total_revs|pluralize:"ão,ões" }}</span></td>
+                            <td>
+                                <span class="text-warning fw-bold"><i class="fa-solid fa-star me-1"></i>{{ cafe.media_nota|floatformat:1 }}</span>
+                            </td>
+                            <td class="pe-4 text-end">
+                                <a href="{% url 'catalogo:detalhes_cafe' cafe.id %}" class="btn btn-sm btn-outline-primary">
+                                    Detalhes <i class="fa-solid fa-chevron-right ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Dados JSON estruturados pelo Django com segurança contra XSS -->
+{{ dashboard_data|json_script:"dashboard-data" }}
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js local (garante funcionamento offline em laboratório) -->
+<script src="{% static 'js/chart.umd.min.js' %}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const dataContainer = document.getElementById('dashboard-data');
+    if (!dataContainer) return;
+
+    const data = JSON.parse(dataContainer.textContent);
+
+    // Paleta de cores temática de café
+    const coffeeColors = {
+        primary: '#6f4e37',      // Café clássico
+        crema: '#d4a373',        // Crema aveludada
+        darkRoast: '#3e2723',    // Torra escura / Cacau
+        lightRoast: '#c29b7a',   // Torra clara / Âmbar
+        accentGold: '#e5a93c',   // Ouro / Estrelas
+        accentGreen: '#4d7c0f',  // Verde folhas / Sustentável
+        accentBlue: '#0284c7',   // Azul info
+        softGray: '#9ca3af'
+    };
+
+    // Detecta se o tema está em modo escuro para calibrar rótulos e linhas de grade
+    function isDarkMode() {
+        const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+        return currentTheme === 'dark';
+    }
+
+    function getTextColor() {
+        return isDarkMode() ? '#e5e7eb' : '#374151';
+    }
+
+    function getGridColor() {
+        return isDarkMode() ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
+    }
+
+    // 1. Gráfico Donut: Ponto de Torra
+    const ctxTorra = document.getElementById('torraChart');
+    if (ctxTorra) {
+        new Chart(ctxTorra, {
+            type: 'doughnut',
+            data: {
+                labels: data.torra.labels,
+                datasets: [{
+                    data: data.torra.data,
+                    backgroundColor: [
+                        '#d4a373', // Clara
+                        '#8d5b4c', // Média
+                        '#3e2723'  // Escura
+                    ],
+                    borderColor: isDarkMode() ? '#1f2937' : '#ffffff',
+                    borderWidth: 2,
+                    hoverOffset: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: getTextColor(),
+                            padding: 16,
+                            font: { size: 12, weight: '500' }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const value = context.parsed;
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                return ` ${context.label}: ${value} cafés (${percentage}%)`;
+                            }
+                        }
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+    }
+
+    // 2. Gráfico de Barras: Top 5 Cafés Mais Bem Avaliados
+    const ctxTopCafes = document.getElementById('topCafesChart');
+    if (ctxTopCafes) {
+        new Chart(ctxTopCafes, {
+            type: 'bar',
+            data: {
+                labels: data.top_cafes.labels,
+                datasets: [{
+                    label: 'Nota Média',
+                    data: data.top_cafes.medias,
+                    backgroundColor: 'rgba(111, 78, 55, 0.85)',
+                    borderColor: '#6f4e37',
+                    borderWidth: 1.5,
+                    borderRadius: 6,
+                    hoverBackgroundColor: '#8d5b4c'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y', // Barras horizontais para melhor legibilidade dos nomes dos cafés
+                scales: {
+                    x: {
+                        min: 0,
+                        max: 5,
+                        grid: { color: getGridColor() },
+                        ticks: {
+                            color: getTextColor(),
+                            stepSize: 1
+                        },
+                        title: {
+                            display: true,
+                            text: 'Nota Média (1 a 5 estrelas)',
+                            color: getTextColor(),
+                            font: { weight: 'bold' }
+                        }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: {
+                            color: getTextColor(),
+                            font: { size: 12, weight: '500' }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const index = context.dataIndex;
+                                const totalRevs = data.top_cafes.totais[index];
+                                return ` Nota: ${context.parsed.x.toFixed(1)} / 5.0 (${totalRevs} avaliações)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // 3. Gráfico de Histograma: Distribuição de Notas (1 a 5 Estrelas)
+    const ctxHistograma = document.getElementById('histogramaChart');
+    if (ctxHistograma) {
+        new Chart(ctxHistograma, {
+            type: 'bar',
+            data: {
+                labels: data.histograma.labels,
+                datasets: [{
+                    label: 'Quantidade de Avaliações',
+                    data: data.histograma.data,
+                    backgroundColor: [
+                        'rgba(239, 68, 68, 0.8)',   // 1 estrela (Vermelho)
+                        'rgba(249, 115, 22, 0.8)',  // 2 estrelas (Laranja)
+                        'rgba(234, 179, 8, 0.8)',   // 3 estrelas (Amarelo)
+                        'rgba(132, 204, 22, 0.8)',  // 4 estrelas (Verde Claro)
+                        'rgba(34, 197, 94, 0.85)'   // 5 estrelas (Verde Escuro)
+                    ],
+                    borderColor: [
+                        '#ef4444',
+                        '#f97316',
+                        '#eab308',
+                        '#84cc16',
+                        '#22c55e'
+                    ],
+                    borderWidth: 1.5,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: getGridColor() },
+                        ticks: {
+                            color: getTextColor(),
+                            precision: 0
+                        },
+                        title: {
+                            display: true,
+                            text: 'Qtd. de Avaliações',
+                            color: getTextColor(),
+                            font: { weight: 'bold' }
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            color: getTextColor(),
+                            font: { weight: '500' }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return ` ${context.parsed.y} avaliações com esta nota`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // 4. Gráfico Donut: Distribuição por Tipo de Grão
+    const ctxGrao = document.getElementById('graoChart');
+    if (ctxGrao) {
+        new Chart(ctxGrao, {
+            type: 'doughnut',
+            data: {
+                labels: data.grao.labels,
+                datasets: [{
+                    data: data.grao.data,
+                    backgroundColor: [
+                        '#0284c7', // 100% Arábica
+                        '#e65100', // Robusta / Conilon
+                        '#8d5b4c'  // Blend Especial
+                    ],
+                    borderColor: isDarkMode() ? '#1f2937' : '#ffffff',
+                    borderWidth: 2,
+                    hoverOffset: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: getTextColor(),
+                            padding: 16,
+                            font: { size: 12, weight: '500' }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const value = context.parsed;
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                return ` ${context.label}: ${value} cafés (${percentage}%)`;
+                            }
+                        }
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

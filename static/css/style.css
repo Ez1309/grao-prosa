@@ -1,0 +1,555 @@
+/* ==========================================================================
+   1. PALETA DE CORES PERSONALIZADA
+   ========================================================================== */
+
+/* Modo Claro: Base creme harmônica. */
+[data-bs-theme="light"] {
+    --bs-body-bg: #F7F1E7;
+    --bs-body-bg-rgb: 247, 241, 231;
+    --bs-body-color: #2D1A13;
+    --bs-body-color-rgb: 45, 26, 19;
+    
+    /* Fundo da navbar e rodapé */
+    --gp-nav-footer-bg: #EFE7DA;
+    --gp-card-bg: #FCF9F3;
+    
+    --bs-border-color: #E2D6C5;
+    --bs-border-color-translucent: rgba(45, 26, 19, 0.1);
+
+    /* Cores de destaque no modo claro */
+    --gp-coffee-primary: #6F4E37;
+    --gp-coffee-hover: #543823;
+    --gp-coffee-light: #C89666;
+
+    /* Ícones e links */
+    --gp-icon-coffee: #6F4E37;
+    --gp-icon-stats: #9C582B;
+    --gp-nav-link: #3B2219;
+    --gp-nav-link-hover: #6F4E37;
+    --gp-nav-hover-bg: rgba(111, 78, 55, 0.08);
+}
+
+/* Modo Escuro: Base taupe / carvão-café suave e aveludada (descanso visual sem cansaço) */
+[data-bs-theme="dark"] {
+    --bs-body-bg: #1A1816;
+    --bs-body-bg-rgb: 26, 24, 22;
+    --bs-body-color: #E8E3DD;
+    --bs-body-color-rgb: 232, 227, 221;
+    
+    /* Fundo suavemente elevado da navbar e rodapé */
+    --gp-nav-footer-bg: #221F1C;
+    --gp-card-bg: #262320;
+    
+    --bs-border-color: #38332E;
+    --bs-border-color-translucent: rgba(232, 227, 221, 0.1);
+
+    /* Cores de destaque no modo escuro (tons dourados de crema e âmbar suave) */
+    --gp-coffee-primary: #D4A373;
+    --gp-coffee-hover: #E2B887;
+    --gp-coffee-light: #DEB887;
+
+    /* Ícones e links */
+    --gp-icon-coffee: #D4A373;
+    --gp-icon-stats: #E29578;
+    --gp-nav-link: #DDD7CE;
+    --gp-nav-link-hover: #D4A373;
+    --gp-nav-hover-bg: rgba(212, 163, 115, 0.08);
+}
+
+/* Transição global suave para troca de tema */
+body,
+.navbar,
+.card,
+footer,
+.form-control,
+.btn,
+.dropdown-menu {
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out, border-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+}
+
+/* Aplicação das cores harmonizadas na navbar e rodapé */
+.navbar-gp {
+    background-color: var(--gp-nav-footer-bg) !important;
+    border-bottom: 1px solid var(--bs-border-color) !important;
+    min-height: 72px;
+}
+
+.footer-gp {
+    background-color: var(--gp-nav-footer-bg) !important;
+    border-top: 1px solid var(--bs-border-color) !important;
+}
+
+.card-gp {
+    background-color: var(--gp-card-bg) !important;
+    border: 1px solid var(--bs-border-color) !important;
+}
+
+/* ==========================================================================
+   2. LOGOTIPO ADAPTATIVO (CLARO / ESCURO)
+   ========================================================================== */
+[data-bs-theme="light"] .logo-dark,
+[data-bs-theme="light"] .logo-stacked-dark,
+[data-bs-theme="light"] .logo-icon-dark {
+    display: none !important;
+}
+[data-bs-theme="light"] .logo-light,
+[data-bs-theme="light"] .logo-stacked-light,
+[data-bs-theme="light"] .logo-icon-light {
+    display: inline-block !important;
+}
+
+[data-bs-theme="dark"] .logo-light,
+[data-bs-theme="dark"] .logo-stacked-light,
+[data-bs-theme="dark"] .logo-icon-light {
+    display: none !important;
+}
+[data-bs-theme="dark"] .logo-dark,
+[data-bs-theme="dark"] .logo-stacked-dark,
+[data-bs-theme="dark"] .logo-icon-dark {
+    display: inline-block !important;
+}
+
+.navbar-brand img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+/* ==========================================================================
+   3. ÍCONES E NAVEGAÇÃO COM ESPAÇAMENTO REFINADO
+   ========================================================================== */
+.icon-coffee {
+    color: var(--gp-icon-coffee) !important;
+    transition: color 0.25s ease;
+}
+
+.icon-stats {
+    color: var(--gp-icon-stats) !important;
+    transition: color 0.25s ease;
+}
+
+.nav-link {
+    color: var(--gp-nav-link) !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.5rem 0.9rem !important;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: var(--gp-nav-link-hover) !important;
+    background-color: var(--gp-nav-hover-bg);
+}
+
+/* ==========================================================================
+   4. ESTILIZAÇÃO DOS BOTÕES
+   ========================================================================== */
+
+/* Botão principal preenchido */
+.btn-coffee-fill {
+    border-radius: 10px;
+    padding: 0.45rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+}
+
+[data-bs-theme="light"] .btn-coffee-fill {
+    background-color: #6F4E37;
+    color: #FFFFFF;
+}
+
+[data-bs-theme="light"] .btn-coffee-fill:hover {
+    background-color: #543823;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(111, 78, 55, 0.25);
+}
+
+[data-bs-theme="dark"] .btn-coffee-fill {
+    background-color: #E0A96D;
+    color: #170E09;
+}
+
+[data-bs-theme="dark"] .btn-coffee-fill:hover {
+    background-color: #F0BC85;
+    color: #170E09;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(224, 169, 109, 0.25);
+}
+
+/* Botão secundário / outline */
+.btn-coffee-outline {
+    border-radius: 10px;
+    padding: 0.45rem 1.15rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    background-color: transparent;
+}
+
+[data-bs-theme="light"] .btn-coffee-outline {
+    color: #6F4E37;
+    border: 1.5px solid #6F4E37;
+}
+
+[data-bs-theme="light"] .btn-coffee-outline:hover {
+    background-color: #6F4E37;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(111, 78, 55, 0.18);
+}
+
+[data-bs-theme="dark"] .btn-coffee-outline {
+    color: #E0A96D;
+    border: 1.5px solid #E0A96D;
+}
+
+[data-bs-theme="dark"] .btn-coffee-outline:hover {
+    background-color: #E0A96D;
+    color: #170E09;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(224, 169, 109, 0.18);
+}
+
+.btn-coffee-outline:focus,
+.btn-coffee-outline:active,
+.btn-coffee-outline.show {
+    box-shadow: 0 0 0 3px rgba(111, 78, 55, 0.2) !important;
+}
+
+[data-bs-theme="dark"] .btn-coffee-outline:focus,
+[data-bs-theme="dark"] .btn-coffee-outline:active,
+[data-bs-theme="dark"] .btn-coffee-outline.show {
+    box-shadow: 0 0 0 3px rgba(224, 169, 109, 0.25) !important;
+}
+
+/* ==========================================================================
+   DROPDOWNS PERSONALIZADOS (SEM AZUL BOOTSTRAP)
+   ========================================================================== */
+.dropdown-menu {
+    border-radius: 10px;
+    border: 1px solid var(--bs-border-color);
+    background-color: var(--gp-card-bg);
+    padding: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12) !important;
+}
+
+.dropdown-item {
+    color: var(--bs-body-color);
+    border-radius: 6px;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Hover e Focus padrão */
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: var(--gp-nav-hover-bg) !important;
+    color: var(--gp-coffee-primary) !important;
+}
+
+/* Estado de Clique / Ativo (remove o azul padrão do bootstrap) */
+.dropdown-item:active,
+.dropdown-item.active {
+    background-color: var(--gp-coffee-primary) !important;
+    color: #FFFFFF !important;
+}
+
+[data-bs-theme="dark"] .dropdown-item:active,
+[data-bs-theme="dark"] .dropdown-item.active {
+    background-color: var(--gp-coffee-primary) !important;
+    color: #1A1816 !important;
+}
+
+/* Item de Logout / Ação de Saída (text-danger) */
+.dropdown-item.text-danger {
+    color: #dc3545 !important;
+}
+
+.dropdown-item.text-danger:hover,
+.dropdown-item.text-danger:focus {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    color: #dc3545 !important;
+}
+
+.dropdown-item.text-danger:active {
+    background-color: #dc3545 !important;
+    color: #FFFFFF !important;
+}
+
+.dropdown-divider {
+    border-top: 1px solid var(--bs-border-color);
+    opacity: 1;
+    margin: 0.4rem 0;
+}
+
+/* Botão de alternância de tema */
+.btn-theme-toggle {
+    border-radius: 10px;
+    padding: 0.44rem 0.95rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+[data-bs-theme="light"] .btn-theme-toggle {
+    border: 1px solid #D6C8B5;
+    color: #4A2E1F;
+    background-color: #FCF9F3;
+}
+
+[data-bs-theme="light"] .btn-theme-toggle:hover {
+    background-color: #EFE7DA;
+    border-color: #C2B099;
+}
+
+[data-bs-theme="dark"] .btn-theme-toggle {
+    border: 1px solid #442D21;
+    color: #F3E8DF;
+    background-color: #241610;
+}
+
+[data-bs-theme="dark"] .btn-theme-toggle:hover {
+    background-color: #311E15;
+    border-color: #5A3A2B;
+}
+
+/* ==========================================================================
+   5. BARRA DE BUSCA
+   ========================================================================== */
+.search-group-gp {
+    min-width: 250px;
+    max-width: 320px;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Contorno no Modo Claro */
+[data-bs-theme="light"] .search-group-gp {
+    border: 1.5px solid #C4B29E;
+    background-color: #FCF9F3;
+    box-shadow: 0 1px 2px rgba(45, 26, 19, 0.05);
+}
+
+[data-bs-theme="light"] .search-group-gp:focus-within {
+    border-color: #6F4E37;
+    box-shadow: 0 0 0 3px rgba(111, 78, 55, 0.15);
+}
+
+[data-bs-theme="light"] .search-input-gp {
+    background-color: transparent !important;
+    border: none !important;
+    color: #2D1A13;
+    font-size: 0.875rem;
+    padding: 0.42rem 0.85rem;
+}
+
+[data-bs-theme="light"] .search-input-gp::placeholder {
+    color: #8C7B6E;
+}
+
+[data-bs-theme="light"] .search-btn-gp {
+    background-color: transparent !important;
+    border: none !important;
+    color: #6F4E37;
+    padding: 0.42rem 0.85rem;
+}
+
+[data-bs-theme="light"] .search-btn-gp:hover {
+    color: #543823;
+}
+
+/* Contorno no Modo Escuro */
+[data-bs-theme="dark"] .search-group-gp {
+    border: 1.5px solid #4D3325;
+    background-color: #1A110B;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+[data-bs-theme="dark"] .search-group-gp:focus-within {
+    border-color: #E0A96D;
+    box-shadow: 0 0 0 3px rgba(224, 169, 109, 0.2);
+}
+
+[data-bs-theme="dark"] .search-input-gp {
+    background-color: transparent !important;
+    border: none !important;
+    color: #F3E8DF;
+    font-size: 0.875rem;
+    padding: 0.42rem 0.85rem;
+}
+
+[data-bs-theme="dark"] .search-input-gp::placeholder {
+    color: #A38B7C;
+}
+
+[data-bs-theme="dark"] .search-btn-gp {
+    background-color: transparent !important;
+    border: none !important;
+    color: #E0A96D;
+    padding: 0.42rem 0.85rem;
+}
+
+[data-bs-theme="dark"] .search-btn-gp:hover {
+    color: #F0BC85;
+}
+
+/* ==========================================================================
+   5. MÓDULO DE PERFIL DE USUÁRIO & REVIEWS
+   ========================================================================== */
+
+.profile-header-card {
+    background-color: var(--gp-card-bg);
+    border-color: var(--bs-border-color) !important;
+    border-radius: 14px;
+}
+
+.profile-avatar-wrapper {
+    width: 110px;
+    height: 110px;
+}
+
+.profile-avatar-img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border: 3px solid var(--gp-coffee-primary);
+}
+
+.profile-avatar-placeholder {
+    width: 110px;
+    height: 110px;
+    background-color: var(--bs-border-color);
+    color: var(--gp-coffee-primary);
+    border: 3px solid var(--gp-coffee-primary);
+}
+
+.profile-avatar-initial {
+    font-size: 2.75rem;
+    font-weight: 700;
+}
+
+/* Badges e Identificadores */
+.badge-especialista {
+    background: linear-gradient(135deg, #D4A373 0%, #C89666 100%) !important;
+    color: #1A110B !important;
+    font-weight: 600;
+    padding: 0.35rem 0.65rem;
+    border-radius: 8px;
+}
+
+.badge-entusiasta {
+    background-color: var(--bs-border-color) !important;
+    color: var(--bs-body-color) !important;
+    font-weight: 500;
+    padding: 0.35rem 0.65rem;
+    border-radius: 8px;
+}
+
+.badge-torra {
+    background-color: rgba(111, 78, 55, 0.1) !important;
+    color: var(--gp-coffee-primary) !important;
+    border: 1px solid var(--gp-coffee-primary);
+    border-radius: 8px;
+    padding: 0.35rem 0.65rem;
+    font-weight: 500;
+}
+
+[data-bs-theme="dark"] .badge-torra {
+    background-color: rgba(212, 163, 115, 0.15) !important;
+}
+
+/* Caixas de Estatísticas */
+.profile-stat-box {
+    background-color: rgba(111, 78, 55, 0.05);
+    border: 1px solid var(--bs-border-color);
+    min-width: 105px;
+    border-radius: 10px;
+}
+
+[data-bs-theme="dark"] .profile-stat-box {
+    background-color: rgba(212, 163, 115, 0.06);
+}
+
+/* Navegação por Abas */
+.profile-nav-pills .nav-link {
+    color: var(--bs-body-color);
+    background-color: transparent;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 0.55rem 1.15rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.profile-nav-pills .nav-link:hover {
+    color: var(--gp-coffee-primary);
+    border-color: var(--gp-coffee-primary);
+    background-color: var(--gp-nav-hover-bg);
+}
+
+[data-bs-theme="light"] .profile-nav-pills .nav-link.active {
+    background-color: #6F4E37 !important;
+    color: #FFFFFF !important;
+    border-color: #6F4E37 !important;
+}
+
+[data-bs-theme="dark"] .profile-nav-pills .nav-link.active {
+    background-color: #D4A373 !important;
+    color: #1A1816 !important;
+    border-color: #D4A373 !important;
+    font-weight: 600;
+}
+
+/* Cards de Avaliações */
+.review-card {
+    background-color: var(--gp-card-bg);
+    border-color: var(--bs-border-color) !important;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+}
+
+.review-comment-box {
+    background-color: rgba(111, 78, 55, 0.04);
+    border-left: 3px solid var(--gp-coffee-primary);
+}
+
+[data-bs-theme="dark"] .review-comment-box {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* ==========================================================================
+   6. PÁGINAS DE ERRO HTTP (404, 403, 500, 400)
+   ========================================================================== */
+.error-card {
+    background-color: var(--gp-card-bg);
+    border-color: var(--bs-border-color) !important;
+    border-radius: 16px;
+}
+
+.error-code {
+    font-size: 5rem;
+    line-height: 1;
+    letter-spacing: -2px;
+    color: var(--gp-coffee-primary);
+    font-weight: 800;
+}
+
+.error-icon-wrapper {
+    margin-bottom: 0.5rem;
+}
+
+

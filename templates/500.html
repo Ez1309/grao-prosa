@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}500 - Erro Interno do Servidor | Grão & Prosa{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-7 text-center">
+            
+            <div class="card error-card p-4 p-md-5 border shadow-sm">
+                <div class="card-body py-4">
+                    
+                    <!-- Ícone -->
+                    <div class="error-icon-wrapper mb-3">
+                        <i class="fa-solid fa-triangle-exclamation display-1 icon-coffee opacity-75"></i>
+                    </div>
+
+                    <!-- Código de Status HTTP -->
+                    <div class="error-code fw-bold mb-2">500</div>
+
+                    <!-- Título -->
+                    <h2 class="h3 fw-bold mb-3">Erro Interno do Servidor</h2>
+
+                    <!-- Descrição Clara e Objetiva -->
+                    <p class="text-body-secondary mx-auto mb-4" style="max-width: 480px;">
+                        Ocorreu um erro inesperado em nossos servidores ao processar sua solicitação. Por favor, tente novamente em alguns instantes.
+                    </p>
+
+                    <!-- Ações Rápidas -->
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <button type="button" class="btn btn-coffee-fill px-4 py-2" onclick="window.location.reload();">
+                            <i class="fa-solid fa-rotate-right me-2"></i>Recarregar Página
+                        </button>
+                        <a href="{% url 'home' %}" class="btn btn-coffee-outline px-4 py-2">
+                            <i class="fa-solid fa-house me-2"></i>Voltar ao Início
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

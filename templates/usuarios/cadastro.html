@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cadastre-se | Grão & Prosa{% endblock %}
+
+{# Oculta a Navbar e o Rodapé padrão na tela de cadastro #}
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 d-flex flex-column justify-content-between py-3 px-3">
+    <!-- Barra Superior de Ações -->
+    <div class="d-flex justify-content-between align-items-center w-100 mb-3" style="max-width: 480px; margin: 0 auto;">
+        <a href="{% url 'usuarios:login' %}" class="btn btn-theme-toggle btn-sm d-flex align-items-center">
+            <i class="fa-solid fa-arrow-left me-2"></i>Voltar ao login
+        </a>
+        <button id="themeToggle" class="btn btn-theme-toggle btn-sm" type="button" aria-label="Alternar tema">
+            Tema <i class="fa-solid fa-moon icon-coffee ms-1" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <!-- Card Central de Cadastro -->
+    <div class="row justify-content-center my-auto">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5" style="max-width: 480px;">
+            <div class="card-gp p-4 p-md-5 shadow-sm rounded-4 text-center">
+
+                <!-- Logotipo Horizontal Oficial -->
+                <div class="mb-4 text-center">
+                    <img src="{% static 'img/logo-full-light.svg' %}" alt="Grão & Prosa" class="logo-light img-fluid" style="height: 85px; width: auto;">
+                    <img src="{% static 'img/logo-full-dark.svg' %}" alt="Grão & Prosa" class="logo-dark img-fluid" style="height: 85px; width: auto;">
+                </div>
+
+                <h1 class="h4 fw-bold mb-1">Crie sua Conta</h1>
+                <p class="text-body-secondary small mb-4">
+                    Junte-se à nossa comunidade para avaliar rótulos e descobrir notas sensoriais.
+                </p>
+
+                <!-- Bloco de Mensagens de Erro / Feedback -->
+                {% if messages %}
+                <div class="mb-3 text-start">
+                    {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show shadow-sm small py-2 px-3" role="alert" style="border-radius: 10px;">
+                        <i class="fa-solid {% if message.tags == 'success' %}fa-circle-check text-success{% elif message.tags == 'error' %}fa-circle-exclamation text-danger{% else %}fa-circle-info text-info{% endif %} me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close btn-close-sm" data-bs-dismiss="alert" aria-label="Fechar" style="font-size: 0.75rem; padding: 0.75rem;"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Formulário de Cadastro com Fluxo Vertical Harmonizado -->
+                <form action="{% url 'usuarios:cadastro' %}" method="POST" class="text-start" onsubmit="return validarFormularioCadastro()">
+                    {% csrf_token %}
+
+                    <!-- Campo Nome Completo -->
+                    <div class="mb-3">
+                        <label for="nome" class="form-label small fw-semibold mb-1">
+                            <i class="fa-solid fa-id-card icon-coffee me-1"></i>Nome Completo
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="nome" 
+                               name="nome" 
+                               value="{{ nome|default:'' }}" 
+                               placeholder="Ex: Maria da Silva" 
+                               required 
+                               autofocus
+                               style="border-radius: 10px; border: 1.5px solid var(--bs-border-color); background-color: var(--bs-body-bg); color: var(--bs-body-color); padding: 0.55rem 0.9rem;">
+                    </div>
+
+                    <!-- Campo Nome de Usuário -->
+                    <div class="mb-3">
+                        <label for="usuario" class="form-label small fw-semibold mb-1">
+                            <i class="fa-solid fa-user icon-coffee me-1"></i>Nome de Usuário
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="usuario" 
+                               name="usuario" 
+                               value="{{ usuario|default:'' }}" 
+                               placeholder="Ex: mariasilva" 
+                               required
+                               style="border-radius: 10px; border: 1.5px solid var(--bs-border-color); background-color: var(--bs-body-bg); color: var(--bs-body-color); padding: 0.55rem 0.9rem;">
+                    </div>
+
+                    <!-- Campo E-mail -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label small fw-semibold mb-1">
+                            <i class="fa-solid fa-envelope icon-coffee me-1"></i>E-mail
+                        </label>
+                        <input type="email" 
+                               class="form-control" 
+                               id="email" 
+                               name="email" 
+                               value="{{ email|default:'' }}" 
+                               placeholder="maria@exemplo.com" 
+                               required
+                               style="border-radius: 10px; border: 1.5px solid var(--bs-border-color); background-color: var(--bs-body-bg); color: var(--bs-body-color); padding: 0.55rem 0.9rem;">
+                    </div>
+
+                    <!-- Ponto de Torra Preferido -->
+                    <div class="mb-3">
+                        <label for="torra_preferida" class="form-label small fw-semibold mb-1">
+                            <i class="fa-solid fa-mug-hot icon-coffee me-1"></i>Ponto de Torra Preferido <span class="text-body-secondary fw-normal">(opcional)</span>
+                        </label>
+                        <select class="form-select" 
+                                id="torra_preferida" 
+                                name="torra_preferida"
+                                style="border-radius: 10px; border: 1.5px solid var(--bs-border-color); background-color: var(--bs-body-bg); color: var(--bs-body-color); padding: 0.55rem 0.9rem;">
+                            <option value="">Selecione sua preferência...</option>
+                            {% for valor, rotulo in tipo_torra_choices %}
+                                <option value="{{ valor }}" {% if torra_preferida == valor %}selected{% endif %}>{{ rotulo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Campo Senha -->
+                    <div class="mb-3">
+                        <label for="senha" class="form-label small fw-semibold mb-1">
+                            <i class="fa-solid fa-lock icon-coffee me-1"></i>Senha
+                        </label>
+                        <div class="input-group">
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="senha" 
+                                   name="senha" 
+                                   placeholder="Mínimo de 6 dígitos..." 
+                                   required
+                                   style="border-radius: 10px 0 0 10px; border: 1.5px solid var(--bs-border-color); border-right: none; background-color: var(--bs-body-bg); color: var(--bs-body-color); padding: 0.55rem 0.9rem;">
+                            <button class="btn btn-outline-secondary" 
+                                    type="button" 
+                                    onclick="alterarVisibilidadeSenha('senha', 'eyeSenha')" 
+                                    style="border-radius: 0 10px 10px 0; border: 1.5px solid var(--bs-border-color); border-left: none; background-color: var(--bs-body-bg);" 
+                                    aria-label="Ver senha">
+                                <i class="fa-solid fa-eye text-body-secondary" id="eyeSenha"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Campo Confirmar Senha -->
+                    <div class="mb-3">
+                        <label for="confirmar_senha" class="form-label small fw-semibold mb-1">
+                            <i class="fa-solid fa-shield-halved icon-coffee me-1"></i>Confirmar Senha
+                        </label>
+                        <div class="input-group">
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="confirmar_senha" 
+                                   name="confirmar_senha" 
+                                   placeholder="Repita a senha exatamente..." 
+                                   required
+                                   style="border-radius: 10px 0 0 10px; border: 1.5px solid var(--bs-border-color); border-right: none; background-color: var(--bs-body-bg); color: var(--bs-body-color); padding: 0.55rem 0.9rem;">
+                            <button class="btn btn-outline-secondary" 
+                                    type="button" 
+                                    onclick="alterarVisibilidadeSenha('confirmar_senha', 'eyeConfirmar')" 
+                                    style="border-radius: 0 10px 10px 0; border: 1.5px solid var(--bs-border-color); border-left: none; background-color: var(--bs-body-bg);" 
+                                    aria-label="Ver confirmação de senha">
+                                <i class="fa-solid fa-eye text-body-secondary" id="eyeConfirmar"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Alerta em Tempo Real: Senhas não coincidem -->
+                    <div id="passwordError" class="alert alert-danger py-2 small mb-3 d-none" role="alert" style="border-radius: 10px;">
+                        <i class="fa-solid fa-triangle-exclamation me-1"></i> As senhas digitadas não coincidem.
+                    </div>
+
+                    <!-- Nota Sutil de Perfil -->
+                    <div class="p-2 px-3 rounded-3 border mb-3 small d-flex align-items-center" style="background-color: var(--bs-body-bg); border-color: var(--bs-border-color) !important;">
+                        <i class="fa-solid fa-circle-info icon-coffee me-2 fa-lg"></i>
+                        <span class="text-body-secondary" style="font-size: 0.82rem;">
+                            Sua conta será criada como <strong>Consumidor / Entusiasta</strong>.
+                        </span>
+                    </div>
+
+                    <!-- Botão de Cadastrar -->
+                    <button type="submit" class="btn btn-coffee-fill w-100 py-2 d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Criar Minha Conta</span>
+                    </button>
+                </form>
+
+                <!-- Rodapé do Card -->
+                <div class="mt-4 pt-3 border-top text-body-secondary small">
+                    Já possui uma conta? 
+                    <a href="{% url 'usuarios:login' %}" class="fw-semibold icon-coffee text-decoration-none">
+                        Fazer Login
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé Minimalista -->
+    <div class="text-center text-body-secondary small py-2">
+        &copy; 2026 Grão & Prosa &bull; UFLA
+    </div>
+</div>
+
+<script>
+    // Alternância de visibilidade de senha
+    function alterarVisibilidadeSenha(fieldId, iconId) {
+        const field = document.getElementById(fieldId);
+        const icon = document.getElementById(iconId);
+        if (field.type === "password") {
+            field.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            field.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+
+    // Validação de senhas no submit
+    function validarFormularioCadastro() {
+        const senha = document.getElementById("senha").value;
+        const confirm = document.getElementById("confirmar_senha").value;
+        const errorDiv = document.getElementById("passwordError");
+
+        if (senha !== confirm) {
+            errorDiv.classList.remove("d-none");
+            return false;
+        } else {
+            errorDiv.classList.add("d-none");
+            return true;
+        }
+    }
+
+    // Validação dinâmica em tempo real
+    document.getElementById("confirmar_senha").addEventListener("input", function() {
+        const senha = document.getElementById("senha").value;
+        const errorDiv = document.getElementById("passwordError");
+        if (this.value && senha !== this.value) {
+            errorDiv.classList.remove("d-none");
+        } else {
+            errorDiv.classList.add("d-none");
+        }
+    });
+</script>
+{% endblock %}

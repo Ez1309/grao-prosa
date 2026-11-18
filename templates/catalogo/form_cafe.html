@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastrar Café | Curadoria | Grão & Prosa{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'catalogo:index' %}">Catálogo</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Novo Café</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card border-0 shadow-sm p-4 p-md-5">
+                <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                    <div class="bg-primary-subtle text-primary p-3 rounded-circle me-3">
+                        <i class="fas fa-coffee fa-2x"></i>
+                    </div>
+                    <div>
+                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle mb-1">
+                            <i class="fas fa-award me-1"></i>Área de Curadoria
+                        </span>
+                        <h2 class="h4 fw-bold mb-0">Cadastrar Novo Rótulo de Café</h2>
+                        <small class="text-body-secondary">Alimente o catálogo com fichas técnicas e notas sensoriais.</small>
+                    </div>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger shadow-sm py-2 px-3 mb-3">
+                            {% for error in form.non_field_errors %}
+                                <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="row g-3">
+                        <!-- Nome e Marca -->
+                        <div class="col-md-7">
+                            <label for="{{ form.nome.id_for_label }}" class="form-label fw-semibold">
+                                Nome do Rótulo / Grão <span class="text-danger">*</span>
+                            </label>
+                            {{ form.nome }}
+                            {% if form.nome.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.nome.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-5">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label for="{{ form.marca.id_for_label }}" class="form-label fw-semibold mb-1">
+                                    Marca Produtora <span class="text-danger">*</span>
+                                </label>
+                                <a href="{% url 'catalogo:criar_marca' %}" class="small text-decoration-none">
+                                    <i class="fas fa-plus-circle me-1"></i>Nova Marca?
+                                </a>
+                            </div>
+                            {{ form.marca }}
+                            {% if form.marca.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.marca.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Classificação Técnica: Grão, Torra e Intensidade -->
+                        <div class="col-md-4">
+                            <label for="{{ form.tipo_grao.id_for_label }}" class="form-label fw-semibold">
+                                Tipo de Grão
+                            </label>
+                            {{ form.tipo_grao }}
+                            {% if form.tipo_grao.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.tipo_grao.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="{{ form.tipo_torra.id_for_label }}" class="form-label fw-semibold">
+                                Ponto de Torra
+                            </label>
+                            {{ form.tipo_torra }}
+                            {% if form.tipo_torra.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.tipo_torra.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="{{ form.intensidade.id_for_label }}" class="form-label fw-semibold">
+                                Intensidade (1 a 10)
+                            </label>
+                            {{ form.intensidade }}
+                            {% if form.intensidade.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.intensidade.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Origem e Notas Sensoriais -->
+                        <div class="col-md-6">
+                            <label for="{{ form.origem_grao.id_for_label }}" class="form-label fw-semibold">
+                                Região de Origem / Terroir
+                            </label>
+                            {{ form.origem_grao }}
+                            {% if form.origem_grao.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.origem_grao.errors|striptags }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Ex: Sul de Minas, Mogiana, Alta Mogiana, Cerrado.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.notas_aromaticas.id_for_label }}" class="form-label fw-semibold">
+                                Notas Sensoriais Principais
+                            </label>
+                            {{ form.notas_aromaticas }}
+                            {% if form.notas_aromaticas.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.notas_aromaticas.errors|striptags }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Ex: Caramelo, chocolate amargo, frutas amarelas.</div>
+                        </div>
+
+                        <!-- Descrição -->
+                        <div class="col-12">
+                            <label for="{{ form.descricao.id_for_label }}" class="form-label fw-semibold">
+                                Descrição Detalhada do Café <span class="text-danger">*</span>
+                            </label>
+                            {{ form.descricao }}
+                            {% if form.descricao.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.descricao.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Foto de Capa e Destaque -->
+                        <div class="col-md-8">
+                            <label for="{{ form.imagem.id_for_label }}" class="form-label fw-semibold">
+                                Foto da Embalagem / Capa
+                            </label>
+                            {{ form.imagem }}
+                            {% if form.imagem.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.imagem.errors|striptags }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Formatos recomendados: PNG ou JPG com fundo limpo.</div>
+                        </div>
+
+                        <div class="col-md-4 d-flex align-items-center">
+                            <div class="form-check p-3 border rounded-3 w-100 mt-md-3">
+                                {{ form.destaque }}
+                                <label for="{{ form.destaque.id_for_label }}" class="form-check-label fw-semibold ms-2">
+                                    <i class="fas fa-star text-warning me-1"></i>Café em Destaque?
+                                </label>
+                                <div class="form-text small">Exibe o selo dourado na vitrine da comunidade.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                        <a href="{% url 'catalogo:index' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Voltar
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-paper-plane me-1"></i>Cadastrar Café
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Entrar | Grão & Prosa{% endblock %}
+
+{# Oculta a Navbar e o Rodapé padrão na tela de login #}
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 d-flex flex-column justify-content-between py-3 px-3">
+    <!-- Barra Superior de Ações -->
+    <div class="d-flex justify-content-between align-items-center w-100 mb-3" style="max-width: 440px; margin: 0 auto;">
+        <a href="{% url 'home' %}" class="btn btn-theme-toggle btn-sm d-flex align-items-center">
+            <i class="fa-solid fa-arrow-left me-2"></i>Voltar ao início
+        </a>
+        <button id="themeToggle" class="btn btn-theme-toggle btn-sm" type="button" aria-label="Alternar tema">
+            Tema <i class="fa-solid fa-moon icon-coffee ms-1" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <!-- Card Central de Login -->
+    <div class="row justify-content-center my-auto">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4" style="max-width: 440px;">
+            <div class="card-gp p-4 p-md-5 shadow-sm rounded-4 text-center">
+
+                <!-- Logotipo Horizontal Oficial -->
+                <div class="mb-4 text-center">
+                    <img src="{% static 'img/logo-full-light.svg' %}" alt="Grão & Prosa" class="logo-light img-fluid" style="height: 85px; width: auto;">
+                    <img src="{% static 'img/logo-full-dark.svg' %}" alt="Grão & Prosa" class="logo-dark img-fluid" style="height: 85px; width: auto;">
+                </div>
+
+                <h1 class="h4 fw-bold mb-1">Acesse sua Conta</h1>
+                <p class="text-body-secondary small mb-4">
+                    Entre com seu e-mail ou usuário para avaliar e explorar cafés especiais.
+                </p>
+
+                <!-- Formulário de Login com E-mail ou Usuário -->
+                <form action="{% url 'usuarios:login' %}" method="POST" class="text-start">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.GET.next|default:'' }}">
+
+                    <!-- Campo E-mail ou Usuário -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label small fw-semibold">
+                            <i class="fa-solid fa-user icon-coffee me-1"></i>E-mail ou Usuário
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="email" 
+                               name="email" 
+                               value="{{ email|default:'' }}" 
+                               placeholder="seu.email@exemplo.com ou usuário" 
+                               required 
+                               autofocus
+                               style="border-radius: 10px; border: 1.5px solid var(--bs-border-color); background-color: var(--bs-body-bg); color: var(--bs-body-color); padding: 0.55rem 0.9rem;">
+                    </div>
+
+                    <!-- Campo Senha com Alternância de Visibilidade -->
+                    <div class="mb-4">
+                        <label for="password" class="form-label small fw-semibold">
+                            <i class="fa-solid fa-lock icon-coffee me-1"></i>Senha
+                        </label>
+                        <div class="input-group">
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="password" 
+                                   name="senha" 
+                                   placeholder="Sua senha..." 
+                                   required
+                                   style="border-radius: 10px 0 0 10px; border: 1.5px solid var(--bs-border-color); border-right: none; background-color: var(--bs-body-bg); color: var(--bs-body-color); padding: 0.55rem 0.9rem;">
+                            <button class="btn btn-outline-secondary" 
+                                    type="button" 
+                                    onclick="alterarVisibilidadeSenha('password')" 
+                                    style="border-radius: 0 10px 10px 0; border: 1.5px solid var(--bs-border-color); border-left: none; background-color: var(--bs-body-bg);" 
+                                    aria-label="Alternar visualização da senha">
+                                <i class="fa-solid fa-eye text-body-secondary" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Botão de Entrar -->
+                    <button type="submit" class="btn btn-coffee-fill w-100 py-2 d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span>Entrar</span>
+                    </button>
+                </form>
+
+                <!-- Rodapé do Card -->
+                <div class="mt-4 pt-3 border-top text-body-secondary small">
+                    Ainda não tem uma conta? 
+                    <a href="{% url 'usuarios:cadastro' %}" class="fw-semibold icon-coffee text-decoration-none">
+                        Cadastre-se
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé Minimalista -->
+    <div class="text-center text-body-secondary small py-2">
+        &copy; 2026 Grão & Prosa &bull; UFLA
+    </div>
+</div>
+
+<script>
+    function alterarVisibilidadeSenha(fieldId) {
+        const field = document.getElementById(fieldId);
+        const icon = document.getElementById('eyeIcon');
+        if (field.type === "password") {
+            field.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            field.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+</script>
+{% endblock %}
