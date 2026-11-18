@@ -78,6 +78,72 @@ A plataforma permite catalogar marcas e rótulos de café com fichas técnicas d
 * **App `avaliacoes`:** Modelo `Review` com nota de 1 a 5 estrelas, comentário e restrição de unicidade `unique_together = ('usuario', 'cafe')`.
 * **Jazzmin Admin:** Painel administrativo customizado em português, com filtros laterais multifacetados, busca textual ampla, navegação por datas (`date_hierarchy`) e edição inline (`ReviewInline` e `PerfilInline`).
 
+#### Diagrama Entidade-Relacionamento
+
+```mermaid
+erDiagram
+    USER ||--|| PERFIL : "possui"
+    USER ||--o{ REVIEW : "escreve"
+    MARCA ||--o{ CAFE : "produz"
+    CAFE ||--o{ REVIEW : "recebe"
+
+    USER {
+        int id PK
+        string username UK
+        string email
+        string first_name
+        string password
+        bool is_staff
+        bool is_superuser
+    }
+    PERFIL {
+        bigint id PK
+        int usuario_id FK,UK "OneToOne com User"
+        image foto_avatar "opcional (avatares/)"
+        text bio "até 500 caracteres"
+        string tipo_perfil "ENTUSIASTA | ESPECIALISTA"
+        string torra_preferida "CLARA | MEDIA | ESCURA (opcional)"
+        datetime criado_em
+    }
+    MARCA {
+        bigint id PK
+        string nome UK
+        string pais_origem "padrão: Brasil"
+        text historia
+        url site_oficial
+        datetime criado_em
+    }
+    CAFE {
+        bigint id PK
+        bigint marca_id FK
+        string nome
+        string tipo_grao "ARABICA | ROBUSTA | BLEND"
+        string tipo_torra "CLARA | MEDIA | ESCURA"
+        int intensidade "1 a 10"
+        string notas_aromaticas
+        string origem_grao
+        text descricao
+        image imagem "opcional (cafes/)"
+        bool destaque
+        datetime criado_em
+    }
+    REVIEW {
+        bigint id PK
+        int usuario_id FK "UK composta com cafe_id"
+        bigint cafe_id FK "UK composta com usuario_id"
+        int nota "1 a 5"
+        text comentario
+        datetime data_avaliacao
+        datetime atualizado_em "nulo em avaliações antigas"
+    }
+```
+
+**Regras não representadas no diagrama:**
+* **Um perfil por usuário:** o `Perfil` é criado automaticamente por um *signal* `post_save` sempre que um `User` é criado.
+* **Uma avaliação por usuário e café:** `unique_together = ('usuario', 'cafe')` em `Review`.
+* **Exclusão em cascata:** excluir um `User` remove seu `Perfil` e suas avaliações; excluir uma `Marca` remove seus cafés e, com eles, as avaliações desses cafés.
+* **Valores calculados (não armazenados):** `Cafe.nota_media` e `Cafe.total_avaliacoes` (agregados das avaliações) e `Review.foi_editada` (avaliação alterada mais de 1 minuto após a criação).
+
 ### 4.6. Catálogo de Cafés e Busca (`/`)
 * **Feed do Catálogo:** Página inicial com a vitrine de cafés, capas, marca, ponto de torra, nota média e total de avaliações.
 * **Busca Textual:** Pesquisa por nome do café, marca, notas sensoriais ou região de origem.
