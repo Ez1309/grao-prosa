@@ -7,17 +7,17 @@
     <!-- Universal Search Bar -->
     <div class="row justify-content-center mb-4">
         <div class="col-lg-8 text-center">
-            <h1 class="fw-bold mb-3"><i class="fas fa-coffee text-primary me-2"></i>Catálogo & Feed da Comunidade</h1>
+            <h1 class="fw-bold mb-3"><i class="fas fa-coffee icon-coffee me-2"></i>Catálogo & Feed da Comunidade</h1>
             <p class="text-body-secondary mb-4">Explore grãos selecionados, notas sensoriais e opiniões de especialistas e entusiastas.</p>
             
             <form method="GET" action="{% url 'catalogo:index' %}" class="row g-2 align-items-center">
-                <div class="col-md-5">
+                <div class="col-12 col-md-5">
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                         <input type="text" name="q" value="{{ busca }}" class="form-control" placeholder="Café, marca ou notas (ex: caramelo)...">
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-12 col-sm-6 col-md-3">
                     <select name="torra" class="form-select">
                         <option value="">Todas as Torras</option>
                         {% for valor, rotulo in tipos_torra %}
@@ -25,7 +25,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-12 col-sm-6 col-md-2">
                     <select name="grao" class="form-select">
                         <option value="">Todos os Grãos</option>
                         {% for valor, rotulo in tipos_grao %}
@@ -33,8 +33,8 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-2 d-grid">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-filter me-1"></i>Filtrar</button>
+                <div class="col-12 col-md-2 d-grid">
+                    <button type="submit" class="btn btn-coffee-fill"><i class="fas fa-filter me-1"></i>Filtrar</button>
                 </div>
             </form>
             
@@ -49,10 +49,10 @@
             {% if user.is_authenticated and user.perfil.tipo_perfil == 'ESPECIALISTA' or user.is_staff %}
                 <div class="mt-4 pt-3 border-top d-flex flex-wrap justify-content-center align-items-center gap-2">
                     <span class="small text-body-secondary me-2"><i class="fas fa-award text-warning me-1"></i>Curadoria de Especialista:</span>
-                    <a href="{% url 'catalogo:criar_cafe' %}" class="btn btn-sm btn-primary">
+                    <a href="{% url 'catalogo:criar_cafe' %}" class="btn btn-sm btn-coffee-fill">
                         <i class="fas fa-plus me-1"></i>Cadastrar Café
                     </a>
-                    <a href="{% url 'catalogo:criar_marca' %}" class="btn btn-sm btn-outline-primary">
+                    <a href="{% url 'catalogo:criar_marca' %}" class="btn btn-sm btn-coffee-outline">
                         <i class="fas fa-tag me-1"></i>Cadastrar Marca
                     </a>
                 </div>
@@ -81,12 +81,12 @@
                         {% endif %}
 
                         <div class="card-body d-flex flex-column">
-                            <small class="text-uppercase fw-semibold text-primary mb-1">{{ cafe.marca.nome }}</small>
+                            <small class="text-uppercase fw-semibold text-coffee mb-1">{{ cafe.marca.nome }}</small>
                             <h5 class="card-title fw-bold mb-2">{{ cafe.nome }}</h5>
                             
-                            <div class="mb-2">
-                                <span class="badge bg-secondary me-1">{{ cafe.get_tipo_torra_display }}</span>
-                                <span class="badge bg-info text-dark me-1">{{ cafe.get_tipo_grao_display }}</span>
+                            <div class="mb-2 d-flex flex-wrap gap-1">
+                                <span class="badge bg-secondary">{{ cafe.get_tipo_torra_display }}</span>
+                                <span class="badge badge-grao">{{ cafe.get_tipo_grao_display }}</span>
                                 <span class="badge bg-light text-dark border">Intensidade: {{ cafe.intensidade }}/10</span>
                             </div>
 
@@ -96,13 +96,13 @@
                                 </p>
                             {% endif %}
 
-                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center gap-2">
                                 <div>
                                     <span class="text-warning"><i class="fas fa-star"></i></span>
                                     <strong class="ms-1">{{ cafe.nota_media }}</strong>
                                     <small class="text-body-secondary">({{ cafe.total_avaliacoes }})</small>
                                 </div>
-                                <a href="{% url 'catalogo:detalhes_cafe' cafe.id %}" class="btn btn-sm btn-outline-primary">
+                                <a href="{% url 'catalogo:detalhes_cafe' cafe.id %}" class="btn btn-sm btn-coffee-outline">
                                     Detalhes <i class="fas fa-chevron-right ms-1"></i>
                                 </a>
                             </div>
@@ -118,7 +118,7 @@
                     <i class="fas fa-mug-empty fa-3x text-muted mb-3 d-block"></i>
                     <h4 class="fw-bold mb-2">Nenhum café encontrado</h4>
                     <p class="text-body-secondary mb-4">Nenhum rótulo correspondeu aos filtros aplicados. Tente ajustar os termos da busca ou limpar os filtros.</p>
-                    <a href="{% url 'catalogo:index' %}" class="btn btn-outline-primary px-4">
+                    <a href="{% url 'catalogo:index' %}" class="btn btn-coffee-outline px-4">
                         <i class="fas fa-rotate-left me-1"></i>Ver todos os cafés
                     </a>
                 </div>

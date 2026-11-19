@@ -14,9 +14,9 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-9">
-            <div class="card border-0 shadow-sm p-4 p-md-5">
+            <div class="card border-0 shadow-sm p-3 p-sm-4 p-md-5">
                 <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
-                    <div class="bg-primary-subtle text-primary p-3 rounded-circle me-3">
+                    <div class="icon-bg-coffee p-3 rounded-circle me-3 flex-shrink-0">
                         <i class="fas fa-coffee fa-2x"></i>
                     </div>
                     <div>
@@ -58,7 +58,7 @@
                                 <label for="{{ form.marca.id_for_label }}" class="form-label fw-semibold mb-1">
                                     Marca Produtora <span class="text-danger">*</span>
                                 </label>
-                                <a href="{% url 'catalogo:criar_marca' %}" class="small text-decoration-none">
+                                <a href="{% url 'catalogo:criar_marca' %}" class="small text-coffee text-decoration-none fw-medium">
                                     <i class="fas fa-plus-circle me-1"></i>Nova Marca?
                                 </a>
                             </div>
@@ -172,11 +172,11 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-4 pt-3 border-top">
                         <a href="{% url 'catalogo:index' %}" class="btn btn-outline-secondary">
                             <i class="fas fa-arrow-left me-1"></i>Voltar
                         </a>
-                        <button type="submit" class="btn btn-primary px-4">
+                        <button type="submit" class="btn btn-coffee-fill px-4">
                             <i class="fas fa-paper-plane me-1"></i>Cadastrar Café
                         </button>
                     </div>

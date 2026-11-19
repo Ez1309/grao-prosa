@@ -150,6 +150,11 @@ JAZZMIN_SETTINGS = {
     "site_title": "Grão & Prosa | Gestão",
     "site_header": "Grão & Prosa",
     "site_brand": "Grão & Prosa",
+    "site_logo": "img/logo-icon-dark.svg",
+    "login_logo": "img/logo-stacked-light.svg",
+    "login_logo_dark": "img/logo-stacked-dark.svg",
+    "site_logo_classes": "brand-image",
+    "site_icon": "img/logo-icon-light.svg",
     "welcome_sign": "Bem-vindo à Administração do Grão & Prosa",
     "copyright": "Grão & Prosa - Programação Web",
     "icons": {
