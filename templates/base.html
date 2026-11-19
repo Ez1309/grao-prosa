@@ -43,7 +43,7 @@
         <nav class="navbar navbar-expand-lg navbar-gp sticky-top py-2">
             <div class="container-fluid px-3 px-md-4 px-xl-5">
                 <!-- Logotipo -->
-                <a class="navbar-brand d-flex align-items-center me-4 me-xl-5" href="/" aria-label="Grão & Prosa - Página Inicial">
+                <a class="navbar-brand d-flex align-items-center me-2 me-lg-4 me-xl-5" href="/" aria-label="Grão & Prosa - Página Inicial">
                     <img src="{% static 'img/logo-full-light.svg' %}" alt="Grão & Prosa" class="logo-light">
                     <img src="{% static 'img/logo-full-dark.svg' %}" alt="Grão & Prosa" class="logo-dark">
                 </a>
@@ -81,7 +81,7 @@
                     </form>
 
                     <!-- Ações da Direita: Tema e Botões de Acesso -->
-                    <div class="d-flex align-items-center gap-2 gap-lg-3 py-2 py-lg-0">
+                    <div class="d-flex flex-wrap align-items-center gap-2 gap-lg-3 py-2 py-lg-0">
                         <!-- Botão de Alternância de Tema -->
                         <button id="themeToggle" class="btn btn-theme-toggle" type="button"
                             aria-label="Alternar tema claro e escuro" title="Alternar tema claro e escuro">
@@ -104,8 +104,8 @@
                                     {% if user.perfil.tipo_perfil == 'ESPECIALISTA' or user.is_staff %}
                                     <li><hr class="dropdown-divider"></li>
                                     <li><h6 class="dropdown-header text-body-secondary"><i class="fa-solid fa-award me-1 text-warning"></i>Curadoria</h6></li>
-                                    <li><a class="dropdown-item" href="{% url 'catalogo:criar_cafe' %}"><i class="fa-solid fa-mug-hot me-2 text-primary"></i>Novo Café</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'catalogo:criar_marca' %}"><i class="fa-solid fa-tag me-2 text-primary"></i>Nova Marca</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'catalogo:criar_cafe' %}"><i class="fa-solid fa-mug-hot me-2 icon-coffee"></i>Novo Café</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'catalogo:criar_marca' %}"><i class="fa-solid fa-tag me-2 icon-coffee"></i>Nova Marca</a></li>
                                     {% endif %}
                                     {% if user.is_staff %}
                                     <li><hr class="dropdown-divider"></li>

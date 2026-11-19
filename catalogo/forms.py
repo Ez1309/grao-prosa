@@ -61,17 +61,11 @@ class CafeForm(forms.ModelForm):
                 "placeholder": "Ex: Bourbon Amarelo, Mogiana Especial...",
             }
         )
-        self.fields["marca"].widget = forms.Select(
-            attrs={"class": "form-select"}
-        )
+        self.fields["marca"].widget.attrs.update({"class": "form-select"})
         self.fields["marca"].empty_label = "Selecione a marca produtora"
 
-        self.fields["tipo_grao"].widget = forms.Select(
-            attrs={"class": "form-select"}
-        )
-        self.fields["tipo_torra"].widget = forms.Select(
-            attrs={"class": "form-select"}
-        )
+        self.fields["tipo_grao"].widget.attrs.update({"class": "form-select"})
+        self.fields["tipo_torra"].widget.attrs.update({"class": "form-select"})
         self.fields["intensidade"].widget = forms.NumberInput(
             attrs={
                 "class": "form-control",

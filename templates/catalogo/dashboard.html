@@ -50,18 +50,18 @@
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
         <div>
             <h1 class="h2 fw-bold mb-1">
-                <i class="fa-solid fa-chart-pie text-primary me-2"></i>Dashboard Analítico & Métricas
+                <i class="fa-solid fa-chart-pie icon-coffee me-2"></i>Dashboard Analítico & Métricas
             </h1>
             <p class="text-body-secondary mb-0">
                 Visão gerencial consolidada do catálogo de cafés especiais, distribuição sensorial e métricas da comunidade.
             </p>
         </div>
-        <div class="d-flex gap-2">
-            <a href="{% url 'catalogo:index' %}" class="btn btn-outline-primary d-flex align-items-center">
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'catalogo:index' %}" class="btn btn-coffee-outline d-flex align-items-center">
                 <i class="fa-solid fa-mug-hot me-2"></i>Ver Catálogo
             </a>
             {% if user.is_authenticated and user.perfil.tipo_perfil == 'ESPECIALISTA' or user.is_staff or user.is_superuser %}
-                <a href="{% url 'catalogo:criar_cafe' %}" class="btn btn-primary d-flex align-items-center">
+                <a href="{% url 'catalogo:criar_cafe' %}" class="btn btn-coffee-fill d-flex align-items-center">
                     <i class="fa-solid fa-plus me-2"></i>Novo Café
                 </a>
             {% endif %}
@@ -76,10 +76,10 @@
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <span class="text-body-secondary small fw-semibold text-uppercase">Cafés no Catálogo</span>
-                        <h2 class="display-6 fw-bold my-1 text-primary">{{ total_cafes }}</h2>
+                        <h2 class="display-6 fw-bold my-1 text-coffee">{{ total_cafes }}</h2>
                         <small class="text-success"><i class="fa-solid fa-check-circle me-1"></i>Disponíveis no feed</small>
                     </div>
-                    <div class="kpi-icon-wrapper bg-primary-subtle text-primary">
+                    <div class="kpi-icon-wrapper icon-bg-coffee flex-shrink-0">
                         <i class="fa-solid fa-mug-hot fa-xl"></i>
                     </div>
                 </div>
@@ -92,10 +92,10 @@
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <span class="text-body-secondary small fw-semibold text-uppercase">Marcas Parceiras</span>
-                        <h2 class="display-6 fw-bold my-1 text-info">{{ total_marcas }}</h2>
+                        <h2 class="display-6 fw-bold my-1 icon-stats">{{ total_marcas }}</h2>
                         <small class="text-body-secondary"><i class="fa-solid fa-earth-americas me-1"></i>Nacionais e globais</small>
                     </div>
-                    <div class="kpi-icon-wrapper bg-info-subtle text-info">
+                    <div class="kpi-icon-wrapper icon-bg-stats flex-shrink-0">
                         <i class="fa-solid fa-tags fa-xl"></i>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                         <h5 class="fw-bold mb-0">Top 5 Cafés Mais Bem Avaliados</h5>
                         <small class="text-body-secondary">Média das notas recebidas pela comunidade</small>
                     </div>
-                    <span class="badge bg-primary-subtle text-primary">Ranking</span>
+                    <span class="badge badge-coffee-subtle">Ranking</span>
                 </div>
                 <div class="card-body px-4 pb-4">
                     <div class="chart-container">
@@ -256,15 +256,15 @@
                                     </div>
                                 </div>
                             </td>
-                            <td><span class="text-primary fw-semibold">{{ cafe.marca.nome }}</span></td>
+                            <td><span class="text-coffee fw-semibold">{{ cafe.marca.nome }}</span></td>
                             <td><span class="badge bg-secondary-subtle text-body">{{ cafe.get_tipo_torra_display }}</span></td>
-                            <td><span class="badge bg-info-subtle text-info-emphasis">{{ cafe.get_tipo_grao_display }}</span></td>
+                            <td><span class="badge badge-grao">{{ cafe.get_tipo_grao_display }}</span></td>
                             <td><span class="text-body-secondary">{{ cafe.total_revs }} avaliaç{{ cafe.total_revs|pluralize:"ão,ões" }}</span></td>
                             <td>
                                 <span class="text-warning fw-bold"><i class="fa-solid fa-star me-1"></i>{{ cafe.media_nota|floatformat:1 }}</span>
                             </td>
-                            <td class="pe-4 text-end">
-                                <a href="{% url 'catalogo:detalhes_cafe' cafe.id %}" class="btn btn-sm btn-outline-primary">
+                            <td class="pe-4 text-end text-nowrap">
+                                <a href="{% url 'catalogo:detalhes_cafe' cafe.id %}" class="btn btn-sm btn-coffee-outline">
                                     Detalhes <i class="fa-solid fa-chevron-right ms-1"></i>
                                 </a>
                             </td>

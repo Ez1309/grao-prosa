@@ -27,6 +27,14 @@
     --gp-nav-link: #3B2219;
     --gp-nav-link-hover: #6F4E37;
     --gp-nav-hover-bg: rgba(111, 78, 55, 0.08);
+
+    /* Sobrescrita das variáveis primárias e de links do Bootstrap (remove o azul padrão) */
+    --bs-primary: #6F4E37;
+    --bs-primary-rgb: 111, 78, 55;
+    --bs-link-color: #6F4E37;
+    --bs-link-color-rgb: 111, 78, 55;
+    --bs-link-hover-color: #543823;
+    --bs-link-hover-color-rgb: 84, 56, 35;
 }
 
 /* Modo Escuro: Base taupe / carvão-café suave e aveludada (descanso visual sem cansaço) */
@@ -54,6 +62,14 @@
     --gp-nav-link: #DDD7CE;
     --gp-nav-link-hover: #D4A373;
     --gp-nav-hover-bg: rgba(212, 163, 115, 0.08);
+
+    /* Sobrescrita das variáveis primárias e de links do Bootstrap (remove o azul padrão) */
+    --bs-primary: #D4A373;
+    --bs-primary-rgb: 212, 163, 115;
+    --bs-link-color: #D4A373;
+    --bs-link-color-rgb: 212, 163, 115;
+    --bs-link-hover-color: #E2B887;
+    --bs-link-hover-color-rgb: 226, 184, 135;
 }
 
 /* Transição global suave para troca de tema */
@@ -127,6 +143,80 @@ footer,
 .icon-stats {
     color: var(--gp-icon-stats) !important;
     transition: color 0.25s ease;
+}
+
+.text-coffee {
+    color: var(--gp-coffee-primary) !important;
+}
+
+.icon-bg-coffee {
+    background-color: rgba(111, 78, 55, 0.12) !important;
+    color: var(--gp-coffee-primary) !important;
+}
+
+[data-bs-theme="dark"] .icon-bg-coffee {
+    background-color: rgba(212, 163, 115, 0.15) !important;
+}
+
+.icon-bg-stats {
+    background-color: rgba(156, 88, 43, 0.12) !important;
+    color: var(--gp-icon-stats) !important;
+}
+
+[data-bs-theme="dark"] .icon-bg-stats {
+    background-color: rgba(226, 149, 120, 0.15) !important;
+}
+
+.badge-grao {
+    background-color: #EFE1CF !important;
+    color: #4A2E1F !important;
+    border: 1px solid #D8C2A8;
+    font-weight: 600;
+}
+
+[data-bs-theme="dark"] .badge-grao {
+    background-color: rgba(212, 163, 115, 0.18) !important;
+    color: #F0D5B8 !important;
+    border-color: rgba(212, 163, 115, 0.35);
+}
+
+.badge-coffee-subtle {
+    background-color: rgba(111, 78, 55, 0.12) !important;
+    color: var(--gp-coffee-primary) !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="dark"] .badge-coffee-subtle {
+    background-color: rgba(212, 163, 115, 0.16) !important;
+}
+
+.alert-coffee {
+    background-color: rgba(111, 78, 55, 0.08);
+    border: 1px solid rgba(111, 78, 55, 0.25);
+    color: var(--bs-body-color);
+    border-radius: 10px;
+}
+
+[data-bs-theme="dark"] .alert-coffee {
+    background-color: rgba(212, 163, 115, 0.1);
+    border-color: rgba(212, 163, 115, 0.3);
+}
+
+/* Foco de formulários e checkboxes alinhados à paleta de café */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--gp-coffee-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.2);
+}
+
+.form-check-input:checked {
+    background-color: var(--gp-coffee-primary);
+    border-color: var(--gp-coffee-primary);
+}
+
+.form-check-input:focus {
+    border-color: var(--gp-coffee-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.2);
 }
 
 .nav-link {
@@ -325,11 +415,19 @@ footer,
    5. BARRA DE BUSCA
    ========================================================================== */
 .search-group-gp {
-    min-width: 250px;
-    max-width: 320px;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
     border-radius: 10px;
     overflow: hidden;
     transition: all 0.2s ease-in-out;
+}
+
+@media (min-width: 992px) {
+    .search-group-gp {
+        min-width: 220px;
+        max-width: 320px;
+    }
 }
 
 /* Contorno no Modo Claro */
@@ -541,7 +639,7 @@ footer,
 }
 
 .error-code {
-    font-size: 5rem;
+    font-size: clamp(3.25rem, 12vw, 5rem);
     line-height: 1;
     letter-spacing: -2px;
     color: var(--gp-coffee-primary);
@@ -550,6 +648,20 @@ footer,
 
 .error-icon-wrapper {
     margin-bottom: 0.5rem;
+}
+
+/* ==========================================================================
+   7. AJUSTES DE RESPONSIVIDADE MOBILE
+   ========================================================================== */
+@media (max-width: 575.98px) {
+    .navbar-brand img {
+        height: 40px;
+    }
+
+    .profile-stat-box {
+        min-width: 0;
+        flex: 1 1 0;
+    }
 }
 
 
